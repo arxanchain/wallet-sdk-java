@@ -15,12 +15,54 @@ limitations under the License.
 *******************************************************************************/
 package com.arxanfintech.sdk;
 
-//import com.arxanfintech.common.crypto.*;
+import java.io.FileInputStream;
+import java.util.List;
+import org.apache.http.NameValuePair;
+import org.apache.http.Header;
+
+import com.arxanfintech.common.crypto.Crypto;
+import com.arxanfintech.common.rest.*;
+import com.arxanfintech.common.structs.RegisterWalletBody;
+import com.arxanfintech.common.structs.Headers;
+import com.arxanfintech.common.util.JsonUtil;
+
 /**
  * 
  * Wallet Api Sdk
  *
  */
 public class Wallet {
+    public Config config;
+    public Crypto crypto;
 
+    public Wallet(Config config, String privateKeyPath, String publicCertPath) {
+        this.config = config;
+        try {
+            this.crypto = new Crypto(new FileInputStream(privateKeyPath), new FileInputStream(publicCertPath));
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void Register(String jsonheader, String jsonbody) throws Exception {
+        RegisterWalletBody register = JsonUtil.parseJsonToClass(jsonbody, RegisterWalletBody.class);
+        List<NameValuePair> body = register.ToListNameValuePair();
+
+        Headers head = JsonUtil.parseJsonToClass(jsonheader, Headers.class);
+        Header[] headers = head.ToHeaderArray();
+        Request request = new Request();
+        request.config = this.config;
+        request.body = body;
+        request.headers = headers;
+        request.crypto = crypto;
+        request.url = request.config.Address + "/wallet-ng/v1/wallet/register";
+
+        Api api = new Api();
+        api.NewHttpClient();
+        try {
+            api.DoPost(request);
+        } catch (Exception e) {
+
+        }
+    }
 }

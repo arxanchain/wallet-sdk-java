@@ -36,8 +36,11 @@
 	</properties>
 
 	<dependencies>
-		<!-- <dependency> <groupId>com.arxanfintech</groupId> <artifactId>java-common</artifactId> 
-			<version>0.1-SNAPSHOT</version> </dependency> -->
+		<dependency>
+			<groupId>com.arxanfintech</groupId>
+			<artifactId>java-common</artifactId>
+			<version>0.1-SNAPSHOT</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
