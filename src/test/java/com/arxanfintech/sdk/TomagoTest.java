@@ -35,14 +35,14 @@ import com.alibaba.fastjson.JSONObject;
 /**
  * Unit test for simple Wallet.
  */
-public class WalletTest extends TestCase {
+public class TomagoTest extends TestCase {
     /**
      * Create the test case
      *
      * @param testName
      *            name of the test case
      */
-    public WalletTest(String testName) {
+    public TomagoTest(String testName) {
         super(testName);
     }
 
@@ -50,14 +50,14 @@ public class WalletTest extends TestCase {
      * @return the suite of tests being tested
      */
     public static Test suite() {
-        return new TestSuite(WalletTest.class);
+        return new TestSuite(TomagoTest.class);
     }
 
     /**
-     * Register Test
+     * Invoke Test
      */
-    public void testRegister() {
-        String strdata = "{\"access\": \"92c62e1c-43ac-11e8-b377-186590cc5d35\", \"secret\": \"Integrate1230\", \"type\": \"Organization\", \"id\": \"\"}";
+    public void testInvoke() {
+        String strdata = "{\"payload\": {\"chaincode_id\": \"mycc\",\"args\": [\"invoke\", \"a\", \"b\", \"1\"]} }";
         JSONObject jsondata = JSON.parseObject(strdata);
 
         String strheader = "{\"Callback-Url\":\"http://something.com\",\"Bc-Invoke-Mode\":\"sync\"}";
@@ -68,10 +68,10 @@ public class WalletTest extends TestCase {
         client.ApiKey = "5zt592jTM1524126512";
         client.CertPath = "/Users/yan/tmp/cert136";
 
-        Wallet wallet = new Wallet(client);
+        Tomago tomago = new Tomago(client);
 
         try {
-            wallet.Register(jsonheader, jsondata);
+            tomago.Invoke(jsonheader, jsondata);
             assertTrue(true);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -80,10 +80,36 @@ public class WalletTest extends TestCase {
     }
 
     /**
-     * Balance Test
+     * Quey Test
      */
-    public void testBalance() {
-        String id = "did:axn:8d5c38a9-8ead-468d-b6d3-bec7d62341b0";
+    public void testQuery() {
+        String strdata = "{\"payload\": {\"chaincode_id\": \"mycc\",\"args\": [\"query\", \"a\"]} }";
+        JSONObject jsondata = JSON.parseObject(strdata);
+
+        String strheader = "{\"Callback-Url\":\"http://something.com\",\"Bc-Invoke-Mode\":\"sync\"}";
+        JSONObject jsonheader = JSON.parseObject(strheader);
+
+        Client client = new Client();
+        client.Address = "172.16.13.6:9143";
+        client.ApiKey = "5zt592jTM1524126512";
+        client.CertPath = "/Users/yan/tmp/cert136";
+
+        Tomago tomago = new Tomago(client);
+
+        try {
+            tomago.Query(jsonheader, jsondata);
+            assertTrue(true);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            assertTrue(false);
+        }
+    }
+
+    /**
+     * Transaction Test
+     */
+    public void testTransaction() {
+        String id = "test0";
 
         String strheader = "{\"Callback-Url\":\"http://something.com\"}";
         JSONObject jsonheader = JSON.parseObject(strheader);
@@ -93,10 +119,10 @@ public class WalletTest extends TestCase {
         client.ApiKey = "5zt592jTM1524126512";
         client.CertPath = "/Users/yan/tmp/cert136";
 
-        Wallet wallet = new Wallet(client);
+        Tomago tomago = new Tomago(client);
 
         try {
-            wallet.Balance(jsonheader, id);
+            tomago.Transaction(jsonheader, id);
             assertTrue(true);
         } catch (Exception e) {
             System.out.println(e.getMessage());

@@ -30,14 +30,14 @@ import com.alibaba.fastjson.JSONObject;
 
 /**
  * 
- * Wallet Api Sdk
+ * Tomago Api Sdk
  *
  */
-public class Wallet {
+public class Tomago {
     private Client client;
     private Crypto crypto;
 
-    public Wallet(Client client) {
+    public Tomago(Client client) {
         this.client = client;
         String privateKeyPath = client.CertPath + "/users/" + client.ApiKey + "/" + client.ApiKey + ".key";
         String publicCertPath = client.CertPath + "/tls/tls.cert";
@@ -49,13 +49,13 @@ public class Wallet {
         }
     }
 
-    public void Register(JSONObject jsonheader, JSONObject jsonbody) throws Exception {
+    public void Invoke(JSONObject jsonheader, JSONObject jsonbody) throws Exception {
         Request request = new Request();
         request.client = this.client;
         request.body = jsonbody;
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.Address + "/wallet-ng/v1/wallet/register";
+        request.url = "http://" + request.client.Address + "/tomago/v2/blockchain/invoke";
 
         Api api = new Api();
         try {
@@ -67,12 +67,30 @@ public class Wallet {
         }
     }
 
-    public void Balance(JSONObject jsonheader, String id) throws Exception {
+    public void Query(JSONObject jsonheader, JSONObject jsonbody) throws Exception {
+        Request request = new Request();
+        request.client = this.client;
+        request.body = jsonbody;
+        request.header = jsonheader;
+        request.crypto = crypto;
+        request.url = "http://" + request.client.Address + "/tomago/v2/blockchain/query";
+
+        Api api = new Api();
+        try {
+            api.NewHttpClient();
+            String response = api.DoPost(request);
+            System.out.println(response);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public void Transaction(JSONObject jsonheader, String id) throws Exception {
         Request request = new Request();
         request.client = this.client;
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.Address + "/wallet-ng/v1/wallet/balance?id=" + id;
+        request.url = "http://" + request.client.Address + "/tomago/v2/blockchain/transaction/" + id;
 
         Api api = new Api();
         try {
