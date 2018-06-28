@@ -54,26 +54,30 @@ public class WalletTest extends TestCase {
         return new TestSuite(WalletTest.class);
     }
 
+    private String address = "172.16.12.60:9143";
+    private String apikey = "6nXwD-oTp1520565858";
+    private String certpath = "/Users/yan/tmp/cert1260";
+
     /**
      * Register Test
      */
     public void testRegister() {
 
-        String strdata = "{\"access\": \"92c62e1c-43ac-11e8-b377-186590cc5d35\", \"secret\": \"Integrate1230\", \"type\": \"Organization\", \"id\": \"\"}";
-        JSONObject jsondata = JSON.parseObject(strdata);
-
-        String strheader = "{\"Callback-Url\":\"http://something.com\",\"Bc-Invoke-Mode\":\"sync\"}";
-        JSONObject jsonheader = JSON.parseObject(strheader);
-
         Client client = new Client();
-        client.Address = "IP:PORT";
-        client.ApiKey = "5zt592jTM1524126512";
-        client.CertPath = "/Users/yan/tmp/cert136";
-
+        client.Address = address;
+        client.ApiKey = apikey;
+        client.CertPath = certpath;
         Wallet wallet = new Wallet(client);
 
+        String strdata = "{\"access\": \"92c62e1c-43ac-11e8-b377-186590cc5d36\", \"secret\": \"Integrate1230\", \"type\": \"Organization\", \"id\": \"\"}";
+        JSONObject jsondata = JSON.parseObject(strdata);
+
+        String strheader = "{\"Callback-Url\":\"http://something.com\"}";
+        JSONObject jsonheader = JSON.parseObject(strheader);
+
         try {
-            wallet.Register(jsonheader, jsondata);
+            String response = wallet.Register(jsonheader, jsondata);
+            System.out.print(response);
             assertTrue(true);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -92,14 +96,78 @@ public class WalletTest extends TestCase {
         JSONObject jsonheader = JSON.parseObject(strheader);
 
         Client client = new Client();
-        client.Address = "IP:PORT";
-        client.ApiKey = "5zt592jTM1524126512";
-        client.CertPath = "/Users/yan/tmp/cert136";
-
+        client.Address = address;
+        client.ApiKey = apikey;
+        client.CertPath = certpath;
         Wallet wallet = new Wallet(client);
 
         try {
-            wallet.Balance(jsonheader, id);
+            String response = wallet.QueryWalletBalance(jsonheader, id);
+            System.out.print(response);
+            assertTrue(true);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            assertTrue(false);
+        }
+    }
+
+    /**
+     * CreatePOE Test
+     */
+    public void testCreatePOE() {
+
+        String privatekeyBase64 = "bx0jOwALZ0hLDxwyHyct3xoH4KjFL3wZ6dDYd2O6Bxmh0qnfEFLK9BjiCfwHoUkU/ryNMBbFWYz9HpFGgwKt6Q==";
+        String nonce = "nonce";
+        String created = "1526613187";
+        String did = "did:axn:98e90bea-f4c3-4347-9656-d9e3a2b1bfe2";
+
+        String strdata = "{\"hash\": \"\", \"name\": \"name\", \"parent_id\": \"\", \"owner\": \"did:axn:98e90bea-f4c3-4347-9656-d9e3a2b1bfe2\", \"id\": \"\", \"metadata\": [123, 34, 112, 104, 111, 110, 101, 34, 58, 32, 34, 49, 56, 50, 48, 49, 51, 57, 49, 56, 48, 57, 34, 125]}";
+        JSONObject jsondata = JSON.parseObject(strdata);
+
+        String strheader = "{\"Callback-Url\":\"http://something.com\"}";
+        JSONObject jsonheader = JSON.parseObject(strheader);
+
+        Client client = new Client();
+        client.Address = address;
+        client.ApiKey = apikey;
+        client.CertPath = certpath;
+        Wallet wallet = new Wallet(client);
+
+        try {
+            String response = wallet.CreatePOE(jsonheader, jsondata, did, created, nonce, privatekeyBase64);
+            System.out.print(response);
+            assertTrue(true);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            assertTrue(false);
+        }
+    }
+
+    /**
+     * TransferTokens Test
+     */
+    public void TransferTokens() {
+
+        String privatekeyBase64 = "bx0jOwALZ0hLDxwyHyct3xoH4KjFL3wZ6dDYd2O6Bxmh0qnfEFLK9BjiCfwHoUkU/ryNMBbFWYz9HpFGgwKt6Q==";
+        String nonce = "nonce";
+        String created = "1526613187";
+        String did = "did:axn:98e90bea-f4c3-4347-9656-d9e3a2b1bfe2";
+
+        String strdata = "{\"hash\": \"\", \"name\": \"name\", \"parent_id\": \"\", \"owner\": \"did:axn:98e90bea-f4c3-4347-9656-d9e3a2b1bfe2\", \"id\": \"\", \"metadata\": [123, 34, 112, 104, 111, 110, 101, 34, 58, 32, 34, 49, 56, 50, 48, 49, 51, 57, 49, 56, 48, 57, 34, 125]}";
+        JSONObject jsondata = JSON.parseObject(strdata);
+
+        String strheader = "{\"Callback-Url\":\"http://something.com\"}";
+        JSONObject jsonheader = JSON.parseObject(strheader);
+
+        Client client = new Client();
+        client.Address = address;
+        client.ApiKey = apikey;
+        client.CertPath = certpath;
+        Wallet wallet = new Wallet(client);
+
+        try {
+            String response = wallet.CreatePOE(jsonheader, jsondata, did, created, nonce, privatekeyBase64);
+            System.out.print(response);
             assertTrue(true);
         } catch (Exception e) {
             System.out.println(e.getMessage());

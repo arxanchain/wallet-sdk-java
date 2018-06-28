@@ -49,7 +49,7 @@ public class Wallet {
         }
     }
 
-    public void Register(JSONObject jsonheader, JSONObject jsonbody) throws Exception {
+    public String Register(JSONObject jsonheader, JSONObject jsonbody) throws Exception {
         Request request = new Request();
         request.client = this.client;
         request.body = jsonbody;
@@ -61,13 +61,31 @@ public class Wallet {
         try {
             api.NewHttpClient();
             String response = api.DoPost(request);
-            System.out.println(response);
+            return response;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            return e.getMessage();
         }
     }
 
-    public void Balance(JSONObject jsonheader, String id) throws Exception {
+    public String RegisterSubWallet(JSONObject jsonheader, JSONObject jsonbody) throws Exception {
+        Request request = new Request();
+        request.client = this.client;
+        request.body = jsonbody;
+        request.header = jsonheader;
+        request.crypto = crypto;
+        request.url = "http://" + request.client.Address + "/wallet-ng/v1/wallet/register/subwallet";
+
+        Api api = new Api();
+        try {
+            api.NewHttpClient();
+            String response = api.DoPost(request);
+            return response;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String QueryWalletBalance(JSONObject jsonheader, String id) throws Exception {
         Request request = new Request();
         request.client = this.client;
         request.header = jsonheader;
@@ -78,9 +96,126 @@ public class Wallet {
         try {
             api.NewHttpClient();
             String response = api.DoGet(request);
-            System.out.println(response);
+            return response;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            return e.getMessage();
+        }
+    }
+
+    public String CreatePOE(JSONObject jsonheader, JSONObject payload, String did, String created, String nonce,
+            String privatekeyBase64) throws Exception {
+
+        Request request = new Request();
+        request.client = this.client;
+        request.body = Common.Build_Body(payload, did, created, nonce, privatekeyBase64);
+        request.header = jsonheader;
+        request.crypto = crypto;
+        request.url = "http://" + request.client.Address + "/wallet-ng/v1/poe/create";
+
+        Api api = new Api();
+        try {
+            api.NewHttpClient();
+            String response = api.DoPost(request);
+            return response;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String QueryPOE(JSONObject jsonheader, String id) throws Exception {
+        Request request = new Request();
+        request.client = this.client;
+        request.header = jsonheader;
+        request.crypto = crypto;
+        request.url = "http://" + request.client.Address + "/wallet-ng/v1/poe?id=" + id;
+
+        Api api = new Api();
+        try {
+            api.NewHttpClient();
+            String response = api.DoGet(request);
+            return response;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String IssueTokens(JSONObject jsonheader, JSONObject payload, String did, String created, String nonce,
+            String privatekeyBase64) throws Exception {
+
+        Request request = new Request();
+        request.client = this.client;
+        request.body = Common.Build_Body(payload, did, created, nonce, privatekeyBase64);
+        request.header = jsonheader;
+        request.crypto = crypto;
+        request.url = "http://" + request.client.Address + "/wallet-ng/v1/transaction/tokens/issue";
+
+        Api api = new Api();
+        try {
+            api.NewHttpClient();
+            String response = api.DoPost(request);
+            return response;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String TransferTokens(JSONObject jsonheader, JSONObject payload, String did, String created, String nonce,
+            String privatekeyBase64) throws Exception {
+
+        Request request = new Request();
+        request.client = this.client;
+        request.body = Common.Build_Body(payload, did, created, nonce, privatekeyBase64);
+        request.header = jsonheader;
+        request.crypto = crypto;
+        request.url = "http://" + request.client.Address + "/wallet-ng/v1/transaction/tokens/transfer";
+
+        Api api = new Api();
+        try {
+            api.NewHttpClient();
+            String response = api.DoPost(request);
+            return response;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String IssueAssets(JSONObject jsonheader, JSONObject payload, String did, String created, String nonce,
+            String privatekeyBase64) throws Exception {
+
+        Request request = new Request();
+        request.client = this.client;
+        request.body = Common.Build_Body(payload, did, created, nonce, privatekeyBase64);
+        request.header = jsonheader;
+        request.crypto = crypto;
+        request.url = "http://" + request.client.Address + "/wallet-ng/v1/transaction/tokens/transfer";
+
+        Api api = new Api();
+        try {
+            api.NewHttpClient();
+            String response = api.DoPost(request);
+            return response;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String TransferAssets(JSONObject jsonheader, JSONObject payload, String did, String created, String nonce,
+            String privatekeyBase64) throws Exception {
+
+        Request request = new Request();
+        request.client = this.client;
+        request.body = Common.Build_Body(payload, did, created, nonce, privatekeyBase64);
+        request.header = jsonheader;
+        request.crypto = crypto;
+        request.url = "http://" + request.client.Address + "/wallet-ng/v1/transaction/assets/transfer";
+
+        Api api = new Api();
+        try {
+            api.NewHttpClient();
+            String response = api.DoPost(request);
+            return response;
+        } catch (Exception e) {
+            return e.getMessage();
         }
     }
 }

@@ -9,3 +9,182 @@ You need not care about how the backend blockchain runs or the unintelligible te
 ## Contributions
 
 We appreciate all kinds of contributions, such as opening issues, fixing bugs and improving documentation.
+
+
+# Usage
+wallet-sdk-java is Maven projcet, we have already put this project to Maven Repository.
+When you use wallet-sdk-java, you should reference project like this:
+
+```pom.xml```
+
+```
+<dependency>
+    <groupId>com.arxanfintech</groupId>
+    <artifactId>wallet-sdk-java</artifactId>
+    <version>1.5.1</version>
+</dependency>
+```
+
+## Wallet Platform API
+wallet-sdk-java have some import APIs. For more details please refer to [Wallet APIs Documentation](http://www.arxanfintech.com/infocenter/html/development/wallet.html)
+
+Before you use wallet-sdk-java, you should prepare certificates.
+
+The certificates include:
+
+* The public key of ArxanChain BaaS Platform (server.crt) which is used to
+  encrypt the data sent to Wallet service. You can download it from the
+  ArxanChain BaaS ChainConsole -> System Management -> API Certs Management
+* The private key of the client user (such as `APIKey.key`) which is used to sign the
+  data. You can download it when you create an API Certificate.
+
+After downloading the two files, use the following command to convert your private key file into PEM format.
+
+```sh
+$ openssl ec -in apikey.key -outform PEM -out apikey.key
+```
+
+Then copy (rename as follows) your TLS certificate and PEM private key file as follows path:
+
+```
+└── your_cert_dir
+    ├── tls
+    |   └── tls.cert
+    └── users
+        └── your-api-key
+            └── your-api-key.key
+```
+
+
+### Init a wallet client
+
+```java
+        Client client = new Client();
+        client.Address = "IP:PORT"; # ArxanChain BaaS Gateway IP and Port
+        client.ApiKey = "5zt592jTM1524126512"; # API-KEY
+        client.CertPath = "your_cert_dir"; # your_cert_dir
+
+        Wallet wallet = new Wallet(client);
+```
+
+### Register Wallet
+```java
+        String strdata = "{\"access\": \"92c62e1c-43ac-11e8-b377-186590cc5d36\", \"secret\": \"Integrate1230\", \"type\": \"Organization\", \"id\": \"\"}";
+        JSONObject jsondata = JSON.parseObject(strdata);
+
+        String strheader = "{\"Callback-Url\":\"http://something.com\"}";
+        JSONObject jsonheader = JSON.parseObject(strheader);
+        
+        JSONObject response = wallet.Register(jsonheader, jsondata);
+```
+
+
+### Create POE
+```java
+        String privatekeyBase64 = "bx0jOwALZ0hLDxwyHyct3xoH4KjFL3wZ6dDYd2O6Bxmh0qnfEFLK9BjiCfwHoUkU/ryNMBbFWYz9HpFGgwKt6Q==";
+        String nonce = "nonce";
+        String created = "1526613187";
+        String did = "did:axn:98e90bea-f4c3-4347-9656-d9e3a2b1bfe2";
+
+        String strdata = "{\"hash\": \"\", \"name\": \"name\", \"parent_id\": \"\", \"owner\": \"did:axn:98e90bea-f4c3-4347-9656-d9e3a2b1bfe2\", \"id\": \"\", \"metadata\": [123, 34, 112, 104, 111, 110, 101, 34, 58, 32, 34, 49, 56, 50, 48, 49, 51, 57, 49, 56, 48, 57, 34, 125]}";
+        JSONObject jsondata = JSON.parseObject(strdata);
+
+        String strheader = "{\"Callback-Url\":\"http://something.com\"}"; // "{"Bc-Invoke-Mode": "sync"}" for sync mode
+        JSONObject jsonheader = JSON.parseObject(strheader);
+        
+        String response = wallet.CreatePOE(jsonheader, jsondata, did, created, nonce, privatekeyBase64);
+
+```
+
+
+### Creat POE
+```java
+        String privatekeyBase64 = "bx0jOwALZ0hLDxwyHyct3xoH4KjFL3wZ6dDYd2O6Bxmh0qnfEFLK9BjiCfwHoUkU/ryNMBbFWYz9HpFGgwKt6Q==";
+        String nonce = "nonce";
+        String created = "1526613187";
+        String did = "did:axn:98e90bea-f4c3-4347-9656-d9e3a2b1bfe2";
+
+        String strdata = "{\"hash\": \"\", \"name\": \"name\", \"parent_id\": \"\", \"owner\": \"did:axn:98e90bea-f4c3-4347-9656-d9e3a2b1bfe2\", \"id\": \"\", \"metadata\": [123, 34, 112, 104, 111, 110, 101, 34, 58, 32, 34, 49, 56, 50, 48, 49, 51, 57, 49, 56, 48, 57, 34, 125]}";
+        JSONObject jsondata = JSON.parseObject(strdata);
+
+        String strheader = "{\"Callback-Url\":\"http://something.com\"}"; // "{"Bc-Invoke-Mode": "sync"}" for sync mode
+        JSONObject jsonheader = JSON.parseObject(strheader);
+        
+        String response = wallet.CreatePOE(jsonheader, jsondata, did, created, nonce, privatekeyBase64);
+
+```
+
+
+
+### Use callback URL to receive blockchain transaction events
+Each of the APIs to invoke blockchain has two invoking modes: - `sync` and `async`.
+
+The default invoking mode is asynchronous, it will return without waiting for
+blockchain transaction confirmation. In asynchronous mode, you should set
+'Callback-Url' in the http header to receive blockchain transaction events.
+
+The blockchain transaction event structure is defined as follows:
+
+```code
+import google_protobuf "github.com/golang/protobuf/ptypes/timestamp
+
+// Blockchain transaction event payload
+type BcTxEventPayload struct {
+    BlockNumber   uint64                     `json:"block_number"`   // Block number
+    BlockHash     []byte                     `json:"block_hash"`     // Block hash
+    ChannelId     string                     `json:"channel_id"`     // Channel ID
+    ChaincodeId   string                     `json:"chaincode_id"`   // Chaincode ID
+    TransactionId string                     `json:"transaction_id"` // Transaction ID
+    Timestamp     *google_protobuf.Timestamp `json:"timestamp"`      // Transaction timestamp
+    IsInvalid     bool                       `json:"is_invalid"`     // Is transaction invalid
+    Payload       interface{}                `json:"payload"`        // Transaction Payload
+}
+```
+
+A blockchain transaction event sample as follows:
+
+```code
+{
+    "block_number":63,
+    "block_hash":"vTRmfHZ3aaecbbw2A5zPcuzekUC42Lid3w+i6dOU5C0=",
+    "channel_id":"pubchain",
+    "chaincode_id":"pubchain-c4:",
+    "transaction_id":"243eaa6e695cc4ce736e765395a64b8b917ff13a6c6500a11558b5e94e02556a",
+    "timestamp":{
+        "seconds":1521189855,
+        "nanos":192203115
+    },
+    "is_invalid":false,
+    "payload":{
+        "id":"4debe20b-ca00-49b0-9130-026a1aefcf2d",
+        "metadata": '{
+            "member_id_value":"3714811988020512",
+            "member_mobile":"6666",
+            "member_name":"8777896121269017",
+            "member_truename":"Tony"
+        }'
+    }
+}
+```
+
+If you want to switch to synchronous invoking mode, set the 'Bc-Invoke-Mode' header
+to 'sync'. In synchronous mode, it will not return until the blockchain
+transaction is confirmed.
+
+```java
+    String strheader = "{"Bc-Invoke-Mode": "sync"}";
+    String strbody = "{……}"
+    
+    String response = wallet.register(jsonheader, jsondata);
+```
+
+### Transaction procedure
+
+1. Send transfer proposal to get wallet.Tx
+
+2. Sign public key as signature
+
+3. Call ProcessTx to transfer formally
+
+
+ 
