@@ -21,7 +21,7 @@ When you use wallet-sdk-java, you should reference project like this:
 <dependency>
     <groupId>com.arxanfintech</groupId>
     <artifactId>wallet-sdk-java</artifactId>
-    <version>1.5.1</version>
+    <version>2.0.1</version>
 </dependency>
 ```
 
@@ -60,11 +60,20 @@ Then copy (rename as follows) your TLS certificate and PEM private key file as f
 
 ```java
         Client client = new Client();
-        client.Address = "IP:PORT"; # ArxanChain BaaS Gateway IP and Port
-        client.ApiKey = "5zt592jTM1524126512"; # API-KEY
-        client.CertPath = "your_cert_dir"; # your_cert_dir
+        client.Address = IP:PORT"; // **Address** is the IP address of the BAAS server entrance.
+        client.ApiKey = "pgZ2CzcTp1530257507"; // Param **apikey** is set to the API access key applied on `ChainConsole` management page
+        client.CertPath = certpath; //param **CertPath** is the path of your private key file and tls certificate
+        client.Creator = sign_params_creator; //the enterprise's wallet did
+        client.Nonce = sign_params_nonce; //the enterprise's nonce
+        client.PrivateB64 = sign_params_privatekeyBase64; //the enterprise's wallet private key 
 
         Wallet wallet = new Wallet(client);
+        
+        
+        // Each of the APIs to invoke blockchain has two invoking modes: - `sync` and `async`. You can set it in http header.
+        // header = {"Bc-Invoke-Mode:"sync"} for sync mode.
+        // default or header = {"Bc-Invoke-Mode:"async"} for async mode.In asynchronous mode, you should set 'Callback-Url'.
+         String strheader = "{\"Callback-Url\":\"http://something.com\"}";
 ```
 
 ### Register Wallet
@@ -72,15 +81,16 @@ Then copy (rename as follows) your TLS certificate and PEM private key file as f
         String strdata = "{\"access\": \"92c62e1c-43ac-11e8-b377-186590cc5d36\", \"secret\": \"Integrate1230\", \"type\": \"Organization\", \"id\": \"\"}";
         JSONObject jsondata = JSON.parseObject(strdata);
 
-        String strheader = "{\"Callback-Url\":\"http://something.com\"}";
         JSONObject jsonheader = JSON.parseObject(strheader);
         
-        JSONObject response = wallet.Register(jsonheader, jsondata);
+        String response = wallet.Register(jsonheader, jsondata);
+       
 ```
 
 
 ### Create POE
 ```java
+
         String privatekeyBase64 = "bx0jOwALZ0hLDxwyHyct3xoH4KjFL3wZ6dDYd2O6Bxmh0qnfEFLK9BjiCfwHoUkU/ryNMBbFWYz9HpFGgwKt6Q==";
         String nonce = "nonce";
         String created = "1526613187";
@@ -89,7 +99,6 @@ Then copy (rename as follows) your TLS certificate and PEM private key file as f
         String strdata = "{\"hash\": \"\", \"name\": \"name\", \"parent_id\": \"\", \"owner\": \"did:axn:98e90bea-f4c3-4347-9656-d9e3a2b1bfe2\", \"id\": \"\", \"metadata\": [123, 34, 112, 104, 111, 110, 101, 34, 58, 32, 34, 49, 56, 50, 48, 49, 51, 57, 49, 56, 48, 57, 34, 125]}";
         JSONObject jsondata = JSON.parseObject(strdata);
 
-        String strheader = "{\"Callback-Url\":\"http://something.com\"}"; // "{"Bc-Invoke-Mode": "sync"}" for sync mode
         JSONObject jsonheader = JSON.parseObject(strheader);
         
         String response = wallet.CreatePOE(jsonheader, jsondata, did, created, nonce, privatekeyBase64);
@@ -97,20 +106,18 @@ Then copy (rename as follows) your TLS certificate and PEM private key file as f
 ```
 
 
-### Creat POE
+### Issue colored token 
 ```java
-        String privatekeyBase64 = "bx0jOwALZ0hLDxwyHyct3xoH4KjFL3wZ6dDYd2O6Bxmh0qnfEFLK9BjiCfwHoUkU/ryNMBbFWYz9HpFGgwKt6Q==";
+       String privatekeyBase64 = "mKyNuvcWrE5ZtverSYVjxu4LSTDlnLkmF/qvYeq0hU6kEsJKGAZb1CkEFE9qxMytNGPXyIy8gekAdB1rIaVNzQ==";
         String nonce = "nonce";
         String created = "1526613187";
-        String did = "did:axn:98e90bea-f4c3-4347-9656-d9e3a2b1bfe2";
 
-        String strdata = "{\"hash\": \"\", \"name\": \"name\", \"parent_id\": \"\", \"owner\": \"did:axn:98e90bea-f4c3-4347-9656-d9e3a2b1bfe2\", \"id\": \"\", \"metadata\": [123, 34, 112, 104, 111, 110, 101, 34, 58, 32, 34, 49, 56, 50, 48, 49, 51, 57, 49, 56, 48, 57, 34, 125]}";
+        String strdata = "{\"owner\": \"did:axn:039aff10-b96b-4c76-86d0-73b5a74d2ca2\", \"asset_id\": \"did:axn:6c6743e5-3a62-4c59-b1ab-3385778f5c32\", \"amount\": 1237, \"fees\": {}, \"issuer\": \"did:axn:c015f5a3-6b5d-469e-87ad-183fd137d7c1\"}";
         JSONObject jsondata = JSON.parseObject(strdata);
 
-        String strheader = "{\"Callback-Url\":\"http://something.com\"}"; // "{"Bc-Invoke-Mode": "sync"}" for sync mode
         JSONObject jsonheader = JSON.parseObject(strheader);
-        
-        String response = wallet.CreatePOE(jsonheader, jsondata, did, created, nonce, privatekeyBase64);
+
+        String response = wallet.IssueTokens(jsonheader, jsondata, "did:axn:039aff10-b96b-4c76-86d0-73b5a74d2ca2", created, nonce, privatekeyBase64);
 
 ```
 
