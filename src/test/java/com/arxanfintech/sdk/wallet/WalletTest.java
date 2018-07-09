@@ -85,7 +85,8 @@ public class WalletTest extends TestCase {
 
         try {
             String response = wallet.IssueTokens(jsonheader, jsondata, "did:axn:039aff10-b96b-4c76-86d0-73b5a74d2ca2",
-                    created, nonce, privatekeyBase64);
+                    created, nonce, privatekeyBase64,
+                    "/Users/yan/eclipse-workspace/java-common/src/main/resources/sign-util");
             System.out.print(response);
             assertTrue(true);
         } catch (Exception e) {
@@ -175,7 +176,8 @@ public class WalletTest extends TestCase {
         JSONObject jsonheader = JSON.parseObject(strheader);
 
         try {
-            String response = wallet.CreatePOE(jsonheader, jsondata, did, created, nonce, privatekeyBase64);
+            String response = wallet.CreatePOE(jsonheader, jsondata, did, created, nonce, privatekeyBase64,
+                    "/Users/yan/eclipse-workspace/java-common/src/main/resources/sign-util");
             System.out.print(response);
             assertTrue(true);
         } catch (Exception e) {
@@ -209,7 +211,8 @@ public class WalletTest extends TestCase {
         JSONObject jsonheader = JSON.parseObject(strheader);
 
         try {
-            String response = wallet.CreatePOE(jsonheader, jsondata, did, created, nonce, privatekeyBase64);
+            String response = wallet.CreatePOE(jsonheader, jsondata, did, created, nonce, privatekeyBase64,
+                    "/Users/yan/eclipse-workspace/java-common/src/main/resources/sign-util");
             System.out.print(response);
             assertTrue(true);
         } catch (Exception e) {

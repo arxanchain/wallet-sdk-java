@@ -105,11 +105,11 @@ public class Wallet {
     }
 
     public String CreatePOE(JSONObject jsonheader, JSONObject payload, String did, String created, String nonce,
-            String privatekeyBase64) throws Exception {
+            String privatekeyBase64, String signToolPath) throws Exception {
 
         Request request = new Request();
         request.client = this.client;
-        request.body = Common.Build_Body(payload, did, created, nonce, privatekeyBase64);
+        request.body = Common.Build_Body(payload, did, created, nonce, privatekeyBase64, signToolPath);
         request.header = jsonheader;
         request.crypto = crypto;
         request.url = "http://" + request.client.Address + "/wallet-ng/v1/poe/create";
@@ -142,11 +142,11 @@ public class Wallet {
     }
 
     public String IssueTokens(JSONObject jsonheader, JSONObject payload, String did, String created, String nonce,
-            String privatekeyBase64) throws Exception {
+            String privatekeyBase64, String signToolPath) throws Exception {
 
         Request request = new Request();
         request.client = this.client;
-        request.body = Common.Build_Body(payload, did, created, nonce, privatekeyBase64);
+        request.body = Common.Build_Body(payload, did, created, nonce, privatekeyBase64, signToolPath);
         request.header = jsonheader;
         request.crypto = crypto;
         request.url = "http://" + request.client.Address + "/wallet-ng/v1/transaction/tokens/issue/prepare";
@@ -191,10 +191,10 @@ public class Wallet {
     }
 
     public String TransferTokens(JSONObject jsonheader, JSONObject payload, String did, String created, String nonce,
-            String privatekeyBase64) throws Exception {
+            String privatekeyBase64, String signToolPath) throws Exception {
         Request request = new Request();
         request.client = this.client;
-        request.body = Common.Build_Body(payload, did, created, nonce, privatekeyBase64);
+        request.body = Common.Build_Body(payload, did, created, nonce, privatekeyBase64, signToolPath);
         request.header = jsonheader;
         request.crypto = crypto;
         request.url = "http://" + request.client.Address + "/wallet-ng/v1/transaction/tokens/transfer/prepare";
@@ -239,10 +239,10 @@ public class Wallet {
     }
 
     public String IssueAssets(JSONObject jsonheader, JSONObject payload, String did, String created, String nonce,
-            String privatekeyBase64) throws Exception {
+            String privatekeyBase64, String signToolPath) throws Exception {
         Request request = new Request();
         request.client = this.client;
-        request.body = Common.Build_Body(payload, did, created, nonce, privatekeyBase64);
+        request.body = Common.Build_Body(payload, did, created, nonce, privatekeyBase64, signToolPath);
         request.header = jsonheader;
         request.crypto = crypto;
         request.url = "http://" + request.client.Address + "/wallet-ng/v1/transaction/assets/issue/prepare";
@@ -288,11 +288,11 @@ public class Wallet {
     }
 
     public String TransferAssets(JSONObject jsonheader, JSONObject payload, String did, String created, String nonce,
-            String privatekeyBase64) throws Exception {
+            String privatekeyBase64, String signToolPath) throws Exception {
 
         Request request = new Request();
         request.client = this.client;
-        request.body = Common.Build_Body(payload, did, created, nonce, privatekeyBase64);
+        request.body = Common.Build_Body(payload, did, created, nonce, privatekeyBase64, signToolPath);
         request.header = jsonheader;
         request.crypto = crypto;
         request.url = "http://" + request.client.Address + "/wallet-ng/v1/transaction/assets/transfer/prepare";

@@ -21,9 +21,10 @@ When you use wallet-sdk-java, you should reference project like this:
 <dependency>
     <groupId>com.arxanfintech</groupId>
     <artifactId>wallet-sdk-java</artifactId>
-    <version>2.0.1</version>
+    <version>2.0.1b</version>
 </dependency>
 ```
+
 
 ## Wallet Platform API
 wallet-sdk-java have some import APIs. For more details please refer to [Wallet APIs Documentation](http://www.arxanfintech.com/infocenter/html/development/wallet.html)
@@ -74,7 +75,30 @@ Then copy (rename as follows) your TLS certificate and PEM private key file as f
         // header = {"Bc-Invoke-Mode:"sync"} for sync mode.
         // default or header = {"Bc-Invoke-Mode:"async"} for async mode.In asynchronous mode, you should set 'Callback-Url'.
          String strheader = "{\"Callback-Url\":\"http://something.com\"}";
+         
+         //the full path for your sign-util
+         String signToolPath = "/Users/ivy/src/github.com/arxanchain/sdk-go-common/crypto/tools/build/sign-util";
+         
 ```
+*Note:* SignToolPath
+
+#### sdk-go-common
+
+you should build the `sdk-go-common` executables `sign-util` on your OS.
+For more details please refer to [sdk-go-common](https://github.com/arxanchain/sdk-go-common/tree/master/crypto/tools)
+
+#### Build
+After successfully installed **sdk-go-common**, you need to install golang and you should've configured your **GOPAH** environment variable, use the following command to build sign-util executables.
+
+```sh
+$ cd $GOPATH/src/github.com/arxanchain/sdk-go-common/crypto/tools
+$ make
+```
+
+The executables full path is your signToolPath like `/Users/ivy/src/github.com/arxanchain/sdk-go-common/crypto/tools/build/sign-util`.
+
+Also you need to confirm the `sign-util` has the executable permission, when you use linux or Mac, you should run `chmod +x sign-util`.
+
 
 ### Register Wallet
 ```java
