@@ -391,4 +391,39 @@ public class Wallet {
             return e.getMessage();
         }
     }
+
+    public String IndexSet(JSONObject jsonheader, JSONObject jsonbody) {
+        Request request = new Request();
+        request.client = this.client;
+        request.body = jsonbody;
+        request.header = jsonheader;
+        request.crypto = crypto;
+        request.url = "http://" + request.client.Address + "/wallet-ng/v1/index/set";
+        Api api = new Api();
+        try {
+            api.NewHttpClient();
+            String response = api.DoPost(request);
+            return response;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String IndexGet(JSONObject jsonheader, JSONObject jsonbody) {
+        Request request = new Request();
+        request.client = this.client;
+        request.body = jsonbody;
+        request.header = jsonheader;
+        request.crypto = crypto;
+        request.url = "http://" + request.client.Address + "/wallet-ng/v1/index/get";
+
+        Api api = new Api();
+        try {
+            api.NewHttpClient();
+            String response = api.DoPost(request);
+            return response;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 }

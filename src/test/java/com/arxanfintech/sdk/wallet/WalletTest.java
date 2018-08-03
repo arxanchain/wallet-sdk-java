@@ -47,18 +47,76 @@ public class WalletTest extends TestCase {
         return new TestSuite(WalletTest.class);
     }
 
-    private String address = "IP:PORT";
-    private String apikey = "pgZ2CzcTp1530257507";
-    private String certpath = "/usr/local/lib/python2.7/site-packages/py_common-2.0.1-py2.7.egg/cryption/ecc/certs";
-    private String sign_params_creator = "did:axn:cdf96536-751c-4266-8c6f-8e55f14dc976";
+    private String address = "172.16.13.21:9143";
+    private String apikey = "QgTMtTETM1533284214";
+    private String certpath = "/Users/yan/tmp/cert1321";
+    private String sign_params_creator = "did:axn:64ec602c-c9e5-4835-8e63-c6f0a619805c";
     private String sign_params_nonce = "nonce";
-    private String sign_params_privatekeyBase64 = "AH6+jOCP1bbKHfTqR9fPlQxKmaY0/ZYRCG9+XnNGIaexc1cgeJWmBLh4NipMLXoum4ibtRkBYBgGlqDpTDO/Qg==";
+    private String sign_params_privatekeyBase64 = "Ulf9P7wmFmlt3DF7ftq3qVbNgfzym6Jw9cpziFG1c98zHP5CweJS9Jp8oEIIVKP9kcPVL6hGtM7tAhVBMWURoQ==";
     // Each of the APIs to invoke blockchain has two invoking modes: - `sync` and
     // `async`. You can set it in http header.
     // header = {"Bc-Invoke-Mode:"sync"} for sync mode.
     // default or header = {"Bc-Invoke-Mode:"async"} for async mode.In asynchronous
     // mode, you should set 'Callback-Url'.
     private String strheader = "{\"Callback-Url\":\"http://something.com\"}";
+
+    /**
+     * IndexSet Test
+     */
+    public void testIndexSet() {
+        Client client = new Client();
+        client.Address = address;
+        client.ApiKey = apikey;
+        client.CertPath = certpath;
+        client.Creator = sign_params_creator;
+        client.Nonce = sign_params_nonce;
+        client.PrivateB64 = sign_params_privatekeyBase64;
+
+        Wallet wallet = new Wallet(client);
+
+        String strdata = "{\"id\":\"did:axn:64ec602c-c9e5-4835-8e63-c6f0a619805c\",\"indexs\":{\"combined_index\":[\"first-me\",\"second-me\",\"third-meu\"],\"individual_index\":[\"individual-me-001\",\"individual-me-002\",\"individual-me-003\"]}}";
+        JSONObject jsondata = JSON.parseObject(strdata);
+
+        JSONObject jsonheader = JSON.parseObject(strheader);
+
+        try {
+            String response = wallet.IndexSet(jsonheader, jsondata);
+            System.out.print(response);
+            assertTrue(true);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            assertTrue(false);
+        }
+    }
+
+    /**
+     * IndexSet Test
+     */
+    public void testIndexGet() {
+        Client client = new Client();
+        client.Address = address;
+        client.ApiKey = apikey;
+        client.CertPath = certpath;
+        client.Creator = sign_params_creator;
+        client.Nonce = sign_params_nonce;
+        client.PrivateB64 = sign_params_privatekeyBase64;
+
+        Wallet wallet = new Wallet(client);
+
+        String strdata = "{\"indexs\":{\"combined_index\":[\"first-me\",\"second-me\",\"third-me\"],\"individual_index\":[\"individual-me-001\",\"individual-me-002\",\"individual-me-003\"]}}";
+        JSONObject jsondata = JSON.parseObject(strdata);
+
+        JSONObject jsonheader = JSON.parseObject(strheader);
+
+        try {
+            String response = wallet.IndexGet(jsonheader, jsondata);
+            System.out.print(response);
+            assertTrue(true);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            assertTrue(false);
+        }
+    }
 
     /**
      * IssuePOE Test
@@ -78,7 +136,7 @@ public class WalletTest extends TestCase {
         String nonce = "nonce";
         String created = "1526613187";
 
-        String strdata = "{\"owner\": \"did:axn:039aff10-b96b-4c76-86d0-73b5a74d2ca2\", \"asset_id\": \"did:axn:6c6743e5-3a62-4c59-b1ab-3385778f5c32\", \"amount\": 1237, \"fees\": {}, \"issuer\": \"did:axn:c015f5a3-6b5d-469e-87ad-183fd137d7c1\"}";
+        String strdata = "{\"owner\":\"did:axn:039aff10-b96b-4c76-86d0-73b5a74d2ca2\", \"asset_id\":\"did:axn:6c6743e5-3a62-4c59-b1ab-3385778f5c32\", \"amount\": 1237, \"fees\":{}, \"issuer\": \"did:axn:c015f5a3-6b5d-469e-87ad-183fd137d7c1\"}";
         JSONObject jsondata = JSON.parseObject(strdata);
 
         JSONObject jsonheader = JSON.parseObject(strheader);
@@ -109,7 +167,7 @@ public class WalletTest extends TestCase {
 
         Wallet wallet = new Wallet(client);
 
-        String strdata = "{\"access\": \"92c62e1c-43ac-11e8-b377-186590cc5d36\",\"secret\": \"Integrate1230\", \"type\": \"Organization\", \"id\": \"\"}";
+        String strdata = "{\"access\":\"92c62e1c-43ac-11e8-b377-186590cc5d36\",\"secret\": \"Integrate1230\",\"type\": 2, \"id\": \"\"}";
         JSONObject jsondata = JSON.parseObject(strdata);
 
         JSONObject jsonheader = JSON.parseObject(strheader);
@@ -170,7 +228,8 @@ public class WalletTest extends TestCase {
         String created = "1526613187";
         String did = "did:axn:98e90bea-f4c3-4347-9656-d9e3a2b1bfe2";
 
-        String strdata = "{\"hash\": \"\", \"name\": \"name\", \"parent_id\": \"\",\"owner\": \"did:axn:98e90bea-f4c3-4347-9656-d9e3a2b1bfe2\", \"id\": \"\",\"metadata\": [123, 34, 112, 104, 111, 110, 101, 34, 58, 32, 34, 49, 56, 50,48, 49, 51, 57, 49, 56, 48, 57, 34, 125]}";
+        String strdata = "{\"hash\": \"\", \"name\": \"name\", \"parent_id\":\"\",\"owner\": \"did:axn:98e90bea-f4c3-4347-9656-d9e3a2b1bfe2\", \"id\":\"\",\"metadata\": [123, 34, 112, 104, 111, 110, 101, 34, 58, 32, 34, 49, 56,50,48, 49, 51, 57, 49, 56, 48, 57, 34, 125]}";
+
         JSONObject jsondata = JSON.parseObject(strdata);
 
         JSONObject jsonheader = JSON.parseObject(strheader);
@@ -205,7 +264,8 @@ public class WalletTest extends TestCase {
         String created = "1526613187";
         String did = "did:axn:98e90bea-f4c3-4347-9656-d9e3a2b1bfe2";
 
-        String strdata = "{\"hash\": \"\", \"name\": \"name\", \"parent_id\": \"\",\"owner\": \"did:axn:98e90bea-f4c3-4347-9656-d9e3a2b1bfe2\", \"id\": \"\",\"metadata\": [123, 34, 112, 104, 111, 110, 101, 34, 58, 32, 34, 49, 56, 50,48, 49, 51, 57, 49, 56, 48, 57, 34, 125]}";
+        String strdata = "{\"hash\": \"\", \"name\": \"name\", \"parent_id\":\"\",\"owner\": \"did:axn:98e90bea-f4c3-4347-9656-d9e3a2b1bfe2\", \"id\":\"\",\"metadata\": [123, 34, 112, 104, 111, 110, 101, 34, 58, 32, 34, 49, 56,50,48, 49, 51, 57, 49, 56, 48, 57, 34, 125]}";
+
         JSONObject jsondata = JSON.parseObject(strdata);
 
         JSONObject jsonheader = JSON.parseObject(strheader);
