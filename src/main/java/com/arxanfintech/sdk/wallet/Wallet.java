@@ -40,10 +40,15 @@ public class Wallet {
     private Crypto crypto;
 
     public Wallet(Client client) {
+        // set default routeTag
+        if (client.RouteTag == "") {
+            client.RouteTag = "wallet-ng";
+        }
         this.client = client;
+        
         String privateKeyPath = client.CertPath + "/users/" + client.ApiKey + "/" + client.ApiKey + ".key";
         String publicCertPath = client.CertPath + "/tls/tls.cert";
-        ;
+
         try {
             this.crypto = new Crypto(new FileInputStream(privateKeyPath), new FileInputStream(publicCertPath));
         } catch (Exception e) {
@@ -57,7 +62,7 @@ public class Wallet {
         request.body = jsonbody;
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.Address + "/wallet-ng/v1/wallet/register";
+        request.url = "http://" + request.client.Address + "/" + request.client.RouteTag + "/v1/wallet/register";
 
         Api api = new Api();
         try {
@@ -75,7 +80,8 @@ public class Wallet {
         request.body = jsonbody;
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.Address + "/wallet-ng/v1/wallet/register/subwallet";
+        request.url = "http://" + request.client.Address + "/" + request.client.RouteTag
+                + "/v1/wallet/register/subwallet";
 
         Api api = new Api();
         try {
@@ -92,7 +98,8 @@ public class Wallet {
         request.client = this.client;
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.Address + "/wallet-ng/v1/wallet/balance?id=" + id;
+        request.url = "http://" + request.client.Address + "/" + request.client.RouteTag + "/v1/wallet/balance?id="
+                + id;
 
         Api api = new Api();
         try {
@@ -112,7 +119,7 @@ public class Wallet {
         request.body = Common.Build_Body(payload, did, created, nonce, privatekeyBase64, signToolPath);
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.Address + "/wallet-ng/v1/poe/create";
+        request.url = "http://" + request.client.Address + "/" + request.client.RouteTag + "/v1/poe/create";
 
         Api api = new Api();
         try {
@@ -129,7 +136,7 @@ public class Wallet {
         request.client = this.client;
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.Address + "/wallet-ng/v1/poe?id=" + id;
+        request.url = "http://" + request.client.Address + "/" + request.client.RouteTag + "/v1/poe?id=" + id;
 
         Api api = new Api();
         try {
@@ -149,7 +156,8 @@ public class Wallet {
         request.body = Common.Build_Body(payload, did, created, nonce, privatekeyBase64, signToolPath);
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.Address + "/wallet-ng/v1/transaction/tokens/issue/prepare";
+        request.url = "http://" + request.client.Address + "/" + request.client.RouteTag
+                + "/v1/transaction/tokens/issue/prepare";
 
         Api api = new Api();
         try {
@@ -197,7 +205,8 @@ public class Wallet {
         request.body = Common.Build_Body(payload, did, created, nonce, privatekeyBase64, signToolPath);
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.Address + "/wallet-ng/v1/transaction/tokens/transfer/prepare";
+        request.url = "http://" + request.client.Address + "/" + request.client.RouteTag
+                + "/v1/transaction/tokens/transfer/prepare";
 
         Api api = new Api();
         try {
@@ -245,7 +254,8 @@ public class Wallet {
         request.body = Common.Build_Body(payload, did, created, nonce, privatekeyBase64, signToolPath);
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.Address + "/wallet-ng/v1/transaction/assets/issue/prepare";
+        request.url = "http://" + request.client.Address + "/" + request.client.RouteTag
+                + "/v1/transaction/assets/issue/prepare";
 
         Api api = new Api();
         try {
@@ -295,7 +305,8 @@ public class Wallet {
         request.body = Common.Build_Body(payload, did, created, nonce, privatekeyBase64, signToolPath);
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.Address + "/wallet-ng/v1/transaction/assets/transfer/prepare";
+        request.url = "http://" + request.client.Address + "/" + request.client.RouteTag
+                + "/v1/transaction/assets/transfer/prepare";
 
         Api api = new Api();
         try {
@@ -380,7 +391,7 @@ public class Wallet {
         request.body = jsonbody;
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.Address + "/wallet-ng/v1/transaction/process";
+        request.url = "http://" + request.client.Address + "/" + request.client.RouteTag + "/v1/transaction/process";
 
         Api api = new Api();
         try {
@@ -398,7 +409,7 @@ public class Wallet {
         request.body = jsonbody;
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.Address + "/wallet-ng/v1/index/set";
+        request.url = "http://" + request.client.Address + "/" + request.client.RouteTag + "/v1/index/set";
         Api api = new Api();
         try {
             api.NewHttpClient();
@@ -415,7 +426,7 @@ public class Wallet {
         request.body = jsonbody;
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.Address + "/wallet-ng/v1/index/get";
+        request.url = "http://" + request.client.Address + "/" + request.client.RouteTag + "/v1/index/get";
 
         Api api = new Api();
         try {

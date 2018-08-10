@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import com.arxanfintech.common.rest.Client;
+import com.arxanfintech.common.structs.WalletType;
 import com.arxanfintech.sdk.wallet.Wallet;
 
 import com.alibaba.fastjson.JSON;
@@ -47,7 +48,7 @@ public class WalletTest extends TestCase {
         return new TestSuite(WalletTest.class);
     }
 
-    private String address = "172.16.13.21:9143";
+    private String address = "111.111.111.111:9143";
     private String apikey = "QgTMtTETM1533284214";
     private String certpath = "/Users/yan/tmp/cert1321";
     private String sign_params_creator = "did:axn:64ec602c-c9e5-4835-8e63-c6f0a619805c";
@@ -167,7 +168,8 @@ public class WalletTest extends TestCase {
 
         Wallet wallet = new Wallet(client);
 
-        String strdata = "{\"access\":\"92c62e1c-43ac-11e8-b377-186590cc5d36\",\"secret\": \"Integrate1230\",\"type\": 2, \"id\": \"\"}";
+        String strdata = "{\"access\":\"92c62e1c-43ac-11e8-b377-186590cc5d36\",\"secret\": \"Integrate1230\",\"type\": "
+                + WalletType.ORGANIZATION.getIndex() + ", \"id\": \"\"}";
         JSONObject jsondata = JSON.parseObject(strdata);
 
         JSONObject jsonheader = JSON.parseObject(strheader);

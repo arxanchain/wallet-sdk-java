@@ -102,7 +102,9 @@ Also you need to confirm the `sign-util` has the executable permission, when you
 
 ### Register Wallet
 ```java
-        String strdata = "{\"access\": \"92c62e1c-43ac-11e8-b377-186590cc5d36\", \"secret\": \"Integrate1230\", \"type\": 2, \"id\": \"\"}";
+        // register wallet body, please notice type: you should use WalletType which in com.arxanfintech.common.structs.WalletType
+        String strdata = "{\"access\": \"92c62e1c-43ac-11e8-b377-186590cc5d36\", \"secret\": \"Integrate1230\", \"type\"
+                + WalletType.ORGANIZATION.getIndex() + ", \"id\": \"\"}";
         JSONObject jsondata = JSON.parseObject(strdata);
 
         JSONObject jsonheader = JSON.parseObject(strheader);
@@ -114,7 +116,6 @@ Also you need to confirm the `sign-util` has the executable permission, when you
 
 ### Create POE
 ```java
-
         String privatekeyBase64 = "bx0jOwALZ0hLDxwyHyct3xoH4KjFL3wZ6dDYd2O6Bxmh0qnfEFLK9BjiCfwHoUkU/ryNMBbFWYz9HpFGgwKt6Q==";
         String nonce = "nonce";
         String created = "1526613187";
@@ -132,7 +133,7 @@ Also you need to confirm the `sign-util` has the executable permission, when you
 
 ### Issue colored token 
 ```java
-       String privatekeyBase64 = "mKyNuvcWrE5ZtverSYVjxu4LSTDlnLkmF/qvYeq0hU6kEsJKGAZb1CkEFE9qxMytNGPXyIy8gekAdB1rIaVNzQ==";
+        String privatekeyBase64 = "mKyNuvcWrE5ZtverSYVjxu4LSTDlnLkmF/qvYeq0hU6kEsJKGAZb1CkEFE9qxMytNGPXyIy8gekAdB1rIaVNzQ==";
         String nonce = "nonce";
         String created = "1526613187";
 
@@ -147,10 +148,6 @@ Also you need to confirm the `sign-util` has the executable permission, when you
 
 ### Index set 
 ```java
-        String privatekeyBase64 = "mKyNuvcWrE5ZtverSYVjxu4LSTDlnLkmF/qvYeq0hU6kEsJKGAZb1CkEFE9qxMytNGPXyIy8gekAdB1rIaVNzQ==";
-        String nonce = "nonce";
-        String created = "1526613187";
-
         String strdata = "{\"id\":\"did:axn:64ec602c-c9e5-4835-8e63-c6f0a619805c\",\"indexs\":{\"combined_index\":[\"first-me\",\"second-me\",\"third-meu\"],\"individual_index\":[\"individual-me-001\",\"individual-me-002\",\"individual-me-003\"]}}";
         JSONObject jsondata = JSON.parseObject(strdata);
 
@@ -162,16 +159,12 @@ Also you need to confirm the `sign-util` has the executable permission, when you
 
 ### Index get 
 ```java
-        String privatekeyBase64 = "mKyNuvcWrE5ZtverSYVjxu4LSTDlnLkmF/qvYeq0hU6kEsJKGAZb1CkEFE9qxMytNGPXyIy8gekAdB1rIaVNzQ==";
-        String nonce = "nonce";
-        String created = "1526613187";
-
         String strdata = "{\"id\":\"did:axn:64ec602c-c9e5-4835-8e63-c6f0a619805c\",\"indexs\":{\"combined_index\":[\"first-me\",\"second-me\",\"third-meu\"],\"individual_index\":[\"individual-me-001\",\"individual-me-002\",\"individual-me-003\"]}}";
         JSONObject jsondata = JSON.parseObject(strdata);
-
+        
         JSONObject jsonheader = JSON.parseObject(strheader);
 
-        String response = wallet.IndexSet(jsonheader, jsondata);
+        String response = wallet.IndexGet(jsonheader, jsondata);
 
 ```
 
