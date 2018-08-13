@@ -67,6 +67,7 @@ Then copy (rename as follows) your TLS certificate and PEM private key file as f
         client.Creator = sign_params_creator; //the enterprise's wallet did
         client.Nonce = sign_params_nonce; //the enterprise's nonce
         client.PrivateB64 = sign_params_privatekeyBase64; //the enterprise's wallet private key 
+        client.EnableCrypto = enableCrypto;
 
         Wallet wallet = new Wallet(client);
         

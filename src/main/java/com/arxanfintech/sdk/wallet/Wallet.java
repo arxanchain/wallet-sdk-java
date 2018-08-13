@@ -15,9 +15,18 @@ limitations under the License.
 *******************************************************************************/
 package com.arxanfintech.sdk.wallet;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
+
+import javax.net.ssl.SSLContext;
+
 import org.apache.http.NameValuePair;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContexts;
 import org.apache.http.Header;
 
 import com.arxanfintech.common.crypto.Crypto;
@@ -25,6 +34,8 @@ import com.arxanfintech.common.rest.*;
 import com.arxanfintech.common.structs.RegisterWalletBody;
 import com.arxanfintech.common.structs.Headers;
 import com.arxanfintech.common.util.JsonUtil;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -40,7 +51,9 @@ public class Wallet {
     private Crypto crypto;
 
     public Wallet(Client client) {
-
+        if (client.RouteTag == null || client.RouteTag == "") {
+            client.RouteTag = "wallet-ng";
+        }
         this.client = client;
 
         String privateKeyPath = client.CertPath + "/users/" + client.ApiKey + "/" + client.ApiKey + ".key";
@@ -89,6 +102,23 @@ public class Wallet {
         }
     }
 
+    public String QueryWalletInfos(JSONObject jsonheader, String id) throws Exception {
+        Request request = new Request();
+        request.client = this.client;
+        request.header = jsonheader;
+        request.crypto = crypto;
+        request.url = "http://" + request.client.Address + "/v1/wallet/info?id=" + id;
+
+        Api api = new Api();
+        try {
+            api.NewHttpClient();
+            String response = api.DoGet(request);
+            return response;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
     public String QueryWalletBalance(JSONObject jsonheader, String id) throws Exception {
         Request request = new Request();
         request.client = this.client;
@@ -120,6 +150,26 @@ public class Wallet {
         try {
             api.NewHttpClient();
             String response = api.DoPost(request);
+            return response;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String UpdatePOE(JSONObject jsonheader, JSONObject payload, String did, String created, String nonce,
+            String privatekeyBase64, String signToolPath) throws Exception {
+
+        Request request = new Request();
+        request.client = this.client;
+        request.body = Common.Build_Body(payload, did, created, nonce, privatekeyBase64, signToolPath);
+        request.header = jsonheader;
+        request.crypto = crypto;
+        request.url = "http://" + request.client.Address + "/v1/poe/update";
+
+        Api api = new Api();
+        try {
+            api.NewHttpClient();
+            String response = api.DoPut(request);
             return response;
         } catch (Exception e) {
             return e.getMessage();
@@ -394,6 +444,30 @@ public class Wallet {
         }
     }
 
+    public String QueryTransactionLogs(JSONObject jsonheader, String type, Boolean isEndpoint, String endpointOrId)
+            throws Exception {
+        Request request = new Request();
+        request.client = this.client;
+        request.header = jsonheader;
+        request.crypto = crypto;
+        if (isEndpoint) {
+            request.url = "http://" + request.client.Address + "/v1/transaction/logs?type=" + type + "&endpoint="
+                    + endpointOrId;
+        } else {
+            request.url = "http://" + request.client.Address + "/v1/transaction/logs?type=" + type + "&id="
+                    + endpointOrId;
+        }
+
+        Api api = new Api();
+        try {
+            api.NewHttpClient();
+            String response = api.DoGet(request);
+            return response;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
     public String IndexSet(JSONObject jsonheader, JSONObject jsonbody) {
         Request request = new Request();
         request.client = this.client;
@@ -427,5 +501,45 @@ public class Wallet {
         } catch (Exception e) {
             return e.getMessage();
         }
+    }
+
+    /**
+     * httpclient post file
+     *
+     * @param request
+     *            http post info
+     * @return response data error return null
+     */
+    private String UploadFile(JSONObject jsonheader, String filename, String poeid, Boolean readonly, String apiKey,
+            String url) {
+        try {
+            HttpResponse<String> res = Unirest.post(url).header("API-Key", apiKey)
+                    .header("Callback-Url", jsonheader.getString("Callback-Url"))
+                    .header("Bc-Invoke-Mode", jsonheader.getString("Bc-Invoke-Mode"))
+                    .header("Content-Type", "multipart/form-data").field("poe_id", poeid).field("read_only", readonly)
+                    .field("poe_file", filename).field("file", new File(filename)).asString();
+
+            // final InputStream stream = new FileInputStream(new
+            // File(getClass().getResource(filename).toURI()));
+            // final byte[] bytes = new byte[stream.available()];
+            // stream.read(bytes);
+            // stream.close();
+            // .field("file", bytes, filename)
+
+            // .field("file", new FileInputStream(new
+            // File(getClass().getResource(filename).toURI())),
+            // ContentType.APPLICATION_OCTET_STREAM, filename)
+
+            String respData = res.getBody();
+
+            System.out.println("Got remote cipher response: " + respData);
+
+            String oriData = this.crypto.decryptAndVerify(respData.getBytes());
+
+            return oriData;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return "";
     }
 }
