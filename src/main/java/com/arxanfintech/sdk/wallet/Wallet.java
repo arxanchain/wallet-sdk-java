@@ -305,13 +305,8 @@ public class Wallet {
             if (issue_pre.getInteger("ErrCode") != 0) {
                 return issue_pre;
             }
-            System.out.println(issue_pre);
 
             JSONArray issue_pre_resp = issue_pre.getJSONArray("Payload");
-            System.out.println("transfer response");
-            System.out.println(issue_pre_resp);
-            System.out.println("end transfer response");
-
             String issuer = payload.getString("from");
 
             String strParams = "{\"creator\":\"" + creator + "\",\"created\":\"" + created + "\",\"nonce\":\"" + nonce
@@ -321,10 +316,6 @@ public class Wallet {
 
             JSONObject txs = new JSONObject();
             txs.put("txs", issue_pre_resp);
-
-            System.out.println("txs");
-            System.out.println(txs);
-            System.out.println("txs");
 
             String processResp = ProcessTx(jsonheader, txs);
             JSONObject result = JSON.parseObject(processResp);
@@ -341,8 +332,8 @@ public class Wallet {
         }
     }
 
-    public String IssueAssets(JSONObject jsonheader, JSONObject payload, String creator, String created, String nonce,
-            String privateKeyBase64, String signToolPath) throws Exception {
+    public JSONObject IssueAssets(JSONObject jsonheader, JSONObject payload, String creator, String created,
+            String nonce, String privateKeyBase64, String signToolPath) throws Exception {
         Request request = new Request();
         request.client = this.client;
 
@@ -357,41 +348,35 @@ public class Wallet {
             api.NewHttpClient();
             String response = api.DoPost(request);
             JSONObject issue_pre = JSON.parseObject(response);
-
-            JSONObject issue_pre_resp = issue_pre.getJSONObject("Payload");
-
-            if (!issue_pre_resp.containsKey("txs")) {
-                return "issue ctoken proposal failed: " + response;
+            if (issue_pre.getInteger("ErrCode") != 0) {
+                return issue_pre;
             }
-            JSONArray txs = issue_pre_resp.getJSONArray("txs");
 
-            String issuer = payload.getString("issuer");
+            JSONArray issue_pre_resp = issue_pre.getJSONArray("Payload");
+            String issuer = payload.getString("from");
 
             String strParams = "{\"creator\":\"" + creator + "\",\"created\":\"" + created + "\",\"nonce\":\"" + nonce
                     + "\",\"privateB64\":\"" + privateKeyBase64 + "\"}";
 
-            txs = SignTxs(issuer, txs, JSON.parseObject(strParams), signToolPath);
+            issue_pre_resp = SignTxs(issuer, issue_pre_resp, JSON.parseObject(strParams), signToolPath);
 
-            issue_pre_resp.put("txs", txs);
+            JSONObject txs = new JSONObject();
+            txs.put("txs", issue_pre_resp);
 
-            String processResp = ProcessTx(jsonheader, issue_pre_resp);
-
+            String processResp = ProcessTx(jsonheader, txs);
             JSONObject result = JSON.parseObject(processResp);
 
             JSONObject resPayload = result.getJSONObject("Payload");
 
-            resPayload.put("token_id", issue_pre_resp.getString("token_id"));
-
             result.put("Payload", resPayload);
 
-            return result.toString();
+            return result;
         } catch (Exception e) {
-            return e.getMessage();
+            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
         }
-
     }
 
-    public String TransferAssets(JSONObject jsonheader, JSONObject payload, String creator, String created,
+    public JSONObject TransferAssets(JSONObject jsonheader, JSONObject payload, String creator, String created,
             String nonce, String privateKeyBase64, String signToolPath) throws Exception {
         Request request = new Request();
         request.client = this.client;
@@ -407,43 +392,38 @@ public class Wallet {
             api.NewHttpClient();
             String response = api.DoPost(request);
             JSONObject issue_pre = JSON.parseObject(response);
-
-            JSONObject issue_pre_resp = issue_pre.getJSONObject("Payload");
-
-            if (!issue_pre_resp.containsKey("txs")) {
-                return "issue ctoken proposal failed: " + response;
+            if (issue_pre.getInteger("ErrCode") != 0) {
+                return issue_pre;
             }
-            JSONArray txs = issue_pre_resp.getJSONArray("txs");
 
-            String issuer = payload.getString("issuer");
+            JSONArray issue_pre_resp = issue_pre.getJSONArray("Payload");
+            String issuer = payload.getString("from");
 
             String strParams = "{\"creator\":\"" + creator + "\",\"created\":\"" + created + "\",\"nonce\":\"" + nonce
                     + "\",\"privateB64\":\"" + privateKeyBase64 + "\"}";
 
-            txs = SignTxs(issuer, txs, JSON.parseObject(strParams), signToolPath);
+            issue_pre_resp = SignTxs(issuer, issue_pre_resp, JSON.parseObject(strParams), signToolPath);
 
-            issue_pre_resp.put("txs", txs);
+            JSONObject txs = new JSONObject();
+            txs.put("txs", issue_pre_resp);
 
-            String processResp = ProcessTx(jsonheader, issue_pre_resp);
-
+            String processResp = ProcessTx(jsonheader, txs);
             JSONObject result = JSON.parseObject(processResp);
 
             JSONObject resPayload = result.getJSONObject("Payload");
 
-            resPayload.put("token_id", issue_pre_resp.getString("token_id"));
-
             result.put("Payload", resPayload);
 
-            return result.toString();
+            return result;
         } catch (Exception e) {
-            return e.getMessage();
+            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
         }
 
     }
 
     private JSONArray SignTxs(String did, JSONArray txs, JSONObject params, String signToolPath) {
-        System.out.println("SignTxs input params" + params.toString());
         for (int i = 0; i < txs.size(); i++) {
+
             JSONObject job = txs.getJSONObject(i);
 
             if (!job.getString("founder").equals(did)) {
@@ -458,7 +438,6 @@ public class Wallet {
     }
 
     private JSONObject SignTx(JSONObject job, JSONObject params, String signToolPath) {
-        System.out.println("SignTx input params" + params.toString());
         if (!job.containsKey("txout")) {
             return null;
         }

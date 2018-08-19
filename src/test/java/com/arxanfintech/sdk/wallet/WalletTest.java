@@ -337,9 +337,7 @@ public class WalletTest extends TestCase {
 
             JSONObject jsondata = JSON.parseObject(strdata);
 
-            // String created = String.valueOf(new
-            // Timestamp(System.currentTimeMillis()).getTime() / 1000);
-            String created = String.valueOf("1111111111");
+            String created = String.valueOf(new Timestamp(System.currentTimeMillis()).getTime() / 1000);
             String nonce = "nonce";
 
             fileHandler = new FileHandler("wallet.log");
@@ -348,6 +346,91 @@ public class WalletTest extends TestCase {
             log.info("Transfer tokens body: " + strdata);
 
             JSONObject response = wallet.TransferTokens(jsonheader, jsondata, walletID, created, nonce,
+                    privateKeyBase64,
+                    "/Users/yan/work/gospace/src/github.com/arxanchain/sdk-go-common/crypto/tools/build/bin/sign-util");
+            log.info("Transfer tokens response: " + response.toString());
+
+            if (response.getInteger("ErrCode") != 0) {
+                assertTrue(false);
+            }
+
+            assertTrue(true);
+        } catch (Exception e) {
+            log.info("Transfer tokens  error: " + e.getMessage());
+            assertTrue(false);
+        }
+    }
+
+    /**
+     * IssueAssets Test
+     */
+    public void testIssueAssets() {
+        Client client = new Client(apikey, certpath, sign_params_creator, sign_params_created, sign_params_nonce,
+                sign_params_privatekeyBase64, address, enableCrypto);
+        Wallet wallet = new Wallet(client);
+
+        String created = String.valueOf(new Timestamp(System.currentTimeMillis()).getTime() / 1000);
+        String nonce = "test-nonce";
+        JSONObject jsonheader = JSON.parseObject(strheader);
+        try {
+
+            String createData = "{\"hash\": \"\", \"name\": \"name\",\"parent_id\":\"\",\"owner\":\"" + walletID
+                    + "\", \"id\":\"\",\"metadata\":[123, 34, 112, 104, 111, 110, 101, 34, 58, 32, 34, 49, 56,50,48, 49, 51, 57,49, 56, 48, 57, 34, 125]}";
+            log.info("Issue poe first try create poe: " + createData);
+            JSONObject jsonCreate = JSON.parseObject(createData);
+            JSONObject createResponse = wallet.CreatePOE(jsonheader, jsonCreate, walletID, created, nonce,
+                    privateKeyBase64, "/Users/yan/eclipse-workspace/java-common/src/main/resources/sign-util");
+            this.poeID = createResponse.getJSONObject("Payload").getString("id");
+
+            String strdata = "{\"owner\":\"" + walletID + "\",\"asset_id\":\"" + poeID
+                    + "\", \"fees\":{}, \"issuer\":\"" + walletID + "\"}";
+            JSONObject jsondata = JSON.parseObject(strdata);
+
+            fileHandler = new FileHandler("wallet.log");
+            fileHandler.setFormatter(new LogHander());
+            log.addHandler(fileHandler);
+            log.info("Issue poe body: " + strdata);
+
+            JSONObject response = wallet.IssueAssets(jsonheader, jsondata, walletID, created, nonce, privateKeyBase64,
+                    "/Users/yan/eclipse-workspace/java-common/src/main/resources/sign-util");
+            log.info("Issue poe response: " + response.toString());
+
+            if (response.getInteger("ErrCode") != 0) {
+                assertTrue(false);
+            }
+
+            assertTrue(true);
+        } catch (Exception ex) {
+            log.info("Issue poe error: " + ex.getMessage());
+            assertTrue(false);
+        }
+    }
+
+    /**
+     * TransferAssets Test
+     */
+    public void TransferAssets() {
+        Client client = new Client(apikey, certpath, sign_params_creator, sign_params_created, sign_params_nonce,
+                sign_params_privatekeyBase64, address, enableCrypto);
+        Wallet wallet = new Wallet(client);
+
+        JSONObject jsonheader = JSON.parseObject(strheader);
+
+        try {
+            String strdata = "{\"from\":\"" + walletID + "\",\"to\":\"" + toWalletID
+                    + "\",\"assets\":[\"did:axn:f6e741e1-4c45-4052-b8c2-6cd0873e1be2\"],\"fee\":{\"amount\":1}}";
+
+            JSONObject jsondata = JSON.parseObject(strdata);
+
+            String created = String.valueOf(new Timestamp(System.currentTimeMillis()).getTime() / 1000);
+            String nonce = "nonce";
+
+            fileHandler = new FileHandler("wallet.log");
+            fileHandler.setFormatter(new LogHander());
+            log.addHandler(fileHandler);
+            log.info("Transfer tokens body: " + strdata);
+
+            JSONObject response = wallet.TransferAssets(jsonheader, jsondata, walletID, created, nonce,
                     privateKeyBase64,
                     "/Users/yan/work/gospace/src/github.com/arxanchain/sdk-go-common/crypto/tools/build/bin/sign-util");
             log.info("Transfer tokens response: " + response.toString());
