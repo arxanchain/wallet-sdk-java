@@ -549,13 +549,6 @@ public class Wallet {
         }
     }
 
-    /**
-     * httpclient post file
-     *
-     * @param request
-     *            http post info
-     * @return response data error return null
-     */
     public String UploadFile(JSONObject jsonheader, String filename, String poeid, Boolean readonly, String apiKey,
             String url) {
         try {
