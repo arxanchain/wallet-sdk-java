@@ -21,7 +21,7 @@ When you use wallet-sdk-java, you should reference project like this:
 <dependency>
     <groupId>com.arxanfintech</groupId>
     <artifactId>wallet-sdk-java</artifactId>
-    <version>2.1test</version>
+    <version>2.0.1c</version>
 </dependency>
 ```
 
@@ -107,7 +107,7 @@ Also you need to confirm the `sign-util` has the executable permission, when you
 ```java
         // register wallet body, please notice type: you should use WalletType which in com.arxanfintech.common.structs.WalletType
         String strdata = "{\"access\": \"92c62e1c-43ac-11e8-b377-186590cc5d36\", \"secret\": \"Integrate1230\", \"type\"
-                + WalletType.ORGANIZATION.getIndex() + ", \"id\": \"\"}";
+                + WalletType.ORGANIZATION.getDesc() + ", \"id\": \"\"}";
         JSONObject jsondata = JSON.parseObject(strdata);
 
         JSONObject jsonheader = JSON.parseObject(strheader);
@@ -147,26 +147,6 @@ Also you need to confirm the `sign-util` has the executable permission, when you
 
         JSONObject response = wallet.IssueTokens(jsonheader, jsondata, "did:axn:039aff10-b96b-4c76-86d0-73b5a74d2ca2", created, nonce, privatekeyBase64);
 
-```
-
-### Index set 
-```java
-        String strdata = "{\"id\":\"did:axn:64ec602c-c9e5-4835-8e63-c6f0a619805c\",\"indexs\":{\"combined_index\":[\"first-me\",\"second-me\",\"third-meu\"],\"individual_index\":[\"individual-me-001\",\"individual-me-002\",\"individual-me-003\"]}}";
-        JSONObject jsondata = JSON.parseObject(strdata);
-
-        JSONObject jsonheader = JSON.parseObject(strheader);
-
-        JSONObject response = wallet.IndexSet(jsonheader, jsondata);
-```
-
-### Index get 
-```java
-        String strdata = "{\"id\":\"did:axn:64ec602c-c9e5-4835-8e63-c6f0a619805c\",\"indexs\":{\"combined_index\":[\"first-me\",\"second-me\",\"third-meu\"],\"individual_index\":[\"individual-me-001\",\"individual-me-002\",\"individual-me-003\"]}}";
-        JSONObject jsondata = JSON.parseObject(strdata);
-        
-        JSONObject jsonheader = JSON.parseObject(strheader);
-
-        JSONObject response = wallet.IndexGet(jsonheader, jsondata);
 ```
 
 ### Use callback URL to receive blockchain transaction events
