@@ -21,7 +21,7 @@ When you use wallet-sdk-java, you should reference project like this:
 <dependency>
     <groupId>com.arxanfintech</groupId>
     <artifactId>wallet-sdk-java</artifactId>
-    <version>2.0.1b</version>
+    <version>2.1test</version>
 </dependency>
 ```
 
@@ -60,17 +60,19 @@ Then copy (rename as follows) your TLS certificate and PEM private key file as f
 ### Init a wallet client
 
 ```java
-        Client client = new Client();
-        client.Address = IP:PORT"; // **Address** is the IP address of the BAAS server entrance.
-        client.ApiKey = "pgZ2CzcTp1530257507"; // Param **apikey** is set to the API access key applied on `ChainConsole` management page
-        client.CertPath = certpath; //param **CertPath** is the path of your private key file and tls certificate
-        client.Creator = sign_params_creator; //the enterprise's wallet did
-        client.Nonce = sign_params_nonce; //the enterprise's nonce
-        client.PrivateB64 = sign_params_privatekeyBase64; //the enterprise's wallet private key 
-        client.EnableCrypto = enableCrypto;
+        String address = IP:PORT"; // **Address** is the IP address of the BAAS server entrance.
+        String apiKey = "pgZ2CzcTp1530257507"; // Param **apikey** is set to the API access key applied on `ChainConsole` management page
+        String certPath = certpath; //param **CertPath** is the path of your private key file and tls certificate
+        String signParamsCreator = sign_params_creator; //the enterprise's wallet did
+        String signParamsNonce = sign_params_nonce; //the enterprise's nonce
+        String signParamsPrivatekeyBase64 = sign_params_privatekeyBase64; //the enterprise's wallet private key 
+        String signParamsCreated = "1534723900";
+        String enableCrypto = enableCrypto; //true will enable crypt data
 
         Wallet wallet = new Wallet(client);
-        
+           Client client = new Client(apiKey, certPath, signParamsCreator, signParamsCreated, signParamsNonce,
+                signParamsPrivatekeyBase64, address, enableCrypto);
+        Wallet wallet = new Wallet(client);
         
         // Each of the APIs to invoke blockchain has two invoking modes: - `sync` and `async`. You can set it in http header.
         // header = {"Bc-Invoke-Mode:"sync"} for sync mode.
@@ -110,7 +112,7 @@ Also you need to confirm the `sign-util` has the executable permission, when you
 
         JSONObject jsonheader = JSON.parseObject(strheader);
         
-        String response = wallet.Register(jsonheader, jsondata);
+        JSONObject response = wallet.Register(jsonheader, jsondata);
        
 ```
 
@@ -127,7 +129,7 @@ Also you need to confirm the `sign-util` has the executable permission, when you
 
         JSONObject jsonheader = JSON.parseObject(strheader);
         
-        String response = wallet.CreatePOE(jsonheader, jsondata, did, created, nonce, privatekeyBase64);
+        JSONObject response = wallet.CreatePOE(jsonheader, jsondata, did, created, nonce, privatekeyBase64);
 
 ```
 
@@ -143,7 +145,7 @@ Also you need to confirm the `sign-util` has the executable permission, when you
 
         JSONObject jsonheader = JSON.parseObject(strheader);
 
-        String response = wallet.IssueTokens(jsonheader, jsondata, "did:axn:039aff10-b96b-4c76-86d0-73b5a74d2ca2", created, nonce, privatekeyBase64);
+        JSONObject response = wallet.IssueTokens(jsonheader, jsondata, "did:axn:039aff10-b96b-4c76-86d0-73b5a74d2ca2", created, nonce, privatekeyBase64);
 
 ```
 
@@ -154,8 +156,7 @@ Also you need to confirm the `sign-util` has the executable permission, when you
 
         JSONObject jsonheader = JSON.parseObject(strheader);
 
-        String response = wallet.IndexSet(jsonheader, jsondata);
-
+        JSONObject response = wallet.IndexSet(jsonheader, jsondata);
 ```
 
 ### Index get 
@@ -165,8 +166,7 @@ Also you need to confirm the `sign-util` has the executable permission, when you
         
         JSONObject jsonheader = JSON.parseObject(strheader);
 
-        String response = wallet.IndexGet(jsonheader, jsondata);
-
+        JSONObject response = wallet.IndexGet(jsonheader, jsondata);
 ```
 
 ### Use callback URL to receive blockchain transaction events
