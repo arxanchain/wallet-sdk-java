@@ -67,11 +67,12 @@ Then copy (rename as follows) your TLS certificate and PEM private key file as f
         String signParamsNonce = sign_params_nonce; //the enterprise's nonce
         String signParamsPrivatekeyBase64 = sign_params_privatekeyBase64; //the enterprise's wallet private key 
         String signParamsCreated = "1534723900";
-        String enableCrypto = enableCrypto; //true will enable crypt data
+        Boolean enableCrypto = enableCrypto; //true will enable crypt data.
 
-        Wallet wallet = new Wallet(client);
-           Client client = new Client(apiKey, certPath, signParamsCreator, signParamsCreated, signParamsNonce,
-                signParamsPrivatekeyBase64, address, enableCrypto);
+        Client client = new Client(
+            apiKey, certPath, signParamsCreator, signParamsCreated,
+            signParamsNonce, signParamsPrivatekeyBase64, address, 
+            enableCrypto); // enableCrypto default true if not set
         Wallet wallet = new Wallet(client);
         
         // Each of the APIs to invoke blockchain has two invoking modes: - `sync` and `async`. You can set it in http header.

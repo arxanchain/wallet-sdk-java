@@ -62,7 +62,7 @@ public class WalletTest extends TestCase {
     private Logger log = Logger.getLogger("wallet.log");
     private FileHandler fileHandler;
 
-    private String address = "111.111.111.111:9143";
+    private String address = "172.16.12.21:9143";
     private String apikey = "2z98QwxHM1534146706";
     private String certpath = "/Users/yan/tmp/cert1221";
     private String sign_params_creator = "did:axn:aede0319-17dd-40df-99f4e-ddfdfa6f1814";
@@ -498,6 +498,31 @@ public class WalletTest extends TestCase {
     // assertTrue(false);
     // }
     // }
+    /**
+     * UploadPOETest Test
+     */
+    public void UploadPOETest() {
+        Client client = new Client(apikey, certpath, sign_params_creator, sign_params_created, sign_params_nonce,
+                sign_params_privatekeyBase64, address, true);
+        Wallet wallet = new Wallet(client);
+
+        JSONObject jsonheader = JSON.parseObject(strheader);
+
+        try {
+            fileHandler = new FileHandler("wallet.log");
+            fileHandler.setFormatter(new LogHander());
+            log.addHandler(fileHandler);
+
+            JSONObject response = wallet.UploadFile(jsonheader, "/Users/yan/upload_poe_file.a",
+                    "did:axn:39621915-6735-4bb4-b710-49295181d5ba", false);
+            log.info("UploadPOETest response: " + response.toString());
+
+            assertTrue(true);
+        } catch (Exception e) {
+            log.info("UploadPOETest error: " + e.getMessage());
+            assertTrue(false);
+        }
+    }
 
     class LogHander extends Formatter {
         @Override
