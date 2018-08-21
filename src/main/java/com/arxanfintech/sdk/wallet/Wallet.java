@@ -15,52 +15,12 @@ limitations under the License.
 *******************************************************************************/
 package com.arxanfintech.sdk.wallet;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.SignatureException;
-import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.net.ssl.SSLContext;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.SSLContexts;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
 
 import com.arxanfintech.common.crypto.Crypto;
 import com.arxanfintech.common.rest.*;
-import com.arxanfintech.common.structs.RegisterWalletBody;
 import com.arxanfintech.common.structs.Headers;
-import com.arxanfintech.common.util.JsonUtil;
 import com.arxanfintech.common.util.Utils;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -68,7 +28,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.bouncycastle.util.encoders.Base64;
-import org.spongycastle.crypto.InvalidCipherTextException;
 
 /**
  * 
@@ -112,7 +71,7 @@ public class Wallet {
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
 
@@ -131,7 +90,7 @@ public class Wallet {
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
 
@@ -149,7 +108,7 @@ public class Wallet {
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
 
@@ -167,7 +126,7 @@ public class Wallet {
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
 
@@ -190,7 +149,7 @@ public class Wallet {
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
 
@@ -213,7 +172,7 @@ public class Wallet {
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
 
@@ -231,7 +190,7 @@ public class Wallet {
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
 
@@ -282,7 +241,7 @@ public class Wallet {
 
             return result;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
 
@@ -328,7 +287,7 @@ public class Wallet {
         } catch (
 
         Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
 
@@ -372,7 +331,7 @@ public class Wallet {
 
             return result;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
 
@@ -416,7 +375,7 @@ public class Wallet {
 
             return result;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
 
     }
@@ -508,7 +467,43 @@ public class Wallet {
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
+
+    public JSONObject UploadFile(JSONObject jsonheader, String pathFile, String poeID, Boolean readOnly) {
+        try {
+            Map<String, String> mapHeader = Utils.JsonToMap(jsonheader);
+            mapHeader.put(Headers.APIKeyHeader, this.client.GetApiKey());
+
+            if (this.client.GetRouteTag() != "") {
+                mapHeader.put(Headers.FabioRouteTagHeader, this.client.GetRouteTag());
+                mapHeader.put(Headers.RouteTagHeader, this.client.GetRouteTag());
+            }
+            String url = "http://" + this.client.GetAddress() + "/v1/poe/upload";
+
+            String boundary = "BeginWebKitFormBoundary7MA4YWxkTrZu0gW";
+            mapHeader.put("Content-Type", "multipart/form-data; boundary=" + boundary);
+
+            String body = Tools.GetMultipartData(boundary, pathFile, poeID, readOnly);
+            if (body == null || body == "") {
+                return JSON.parseObject(
+                        "{\"ErrMessage\":\"GetMultipartData error. Please make sure correct pathfile.\",\"ErrCode\":-1,\"Method\":\"\"}");
+            }
+            if (this.client.GetEnableCrypto()) {
+                body = new String(crypto.signAndEncrypt(body.getBytes()));
+            }
+            HttpResponse<String> response = Unirest.post(url).headers(mapHeader).body(body).asString();
+
+            String respData = response.getBody();
+
+            String oriData = this.client.GetEnableCrypto() ? this.crypto.decryptAndVerify(respData.getBytes())
+                    : respData;
+            JSONObject jsonResponse = JSON.parseObject(oriData);
+            return jsonResponse;
+        } catch (Exception e) {
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
+        }
+    }
+
 }

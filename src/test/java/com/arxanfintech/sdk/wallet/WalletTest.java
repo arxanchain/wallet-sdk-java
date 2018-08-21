@@ -97,7 +97,7 @@ public class WalletTest extends TestCase {
     //
     // String strdata = "{\"access\":\"" + access +
     // "\",\"secret\":\"Integrate1230\",\"type\":"
-    // + WalletType.ORGANIZATION.getDesc() + ", \"id\": \"\"}";
+    // + WalletType.ORGANIZATION.getIndex() + ", \"id\": \"\"}";
     //
     // JSONObject jsondata = JSON.parseObject(strdata);
     //
@@ -128,6 +128,77 @@ public class WalletTest extends TestCase {
     // } catch (Exception e) {
     //
     // log.info("Register wallet error: " + e.getMessage());
+    // assertTrue(false);
+    // }
+    // }
+    //
+    // /**
+    // * IndexSet Test
+    // */
+    // public void testIndexSet() {
+    // Client client = new Client(apikey, certpath, sign_params_creator,
+    // sign_params_created, sign_params_nonce,
+    // sign_params_privatekeyBase64, address, enableCrypto);
+    // Wallet wallet = new Wallet(client);
+    //
+    // String strdata = "{\"id\":\"" + walletID
+    // +
+    // "\",\"indexs\":{\"combined_index\":[\"first-me\",\"second-me\",\"third-me\"],\"individual_index\":[\"individual-me-001\",\"individual-me-002\",\"individual-me-003\"]}}";
+    //
+    // JSONObject jsondata = JSON.parseObject(strdata);
+    //
+    // JSONObject jsonheader = JSON.parseObject(strheader);
+    // try {
+    // fileHandler = new FileHandler("wallet.log");
+    // fileHandler.setFormatter(new LogHander());
+    // log.addHandler(fileHandler);
+    // log.info("Index set body: " + strdata);
+    //
+    // JSONObject response = wallet.IndexSet(jsonheader, jsondata);
+    // log.info("Index set response: " + response.toString());
+    //
+    // // if (response.getInteger("ErrCode") != 0) {
+    // // assertTrue(false);
+    // // }
+    //
+    // assertTrue(true);
+    // } catch (Exception e) {
+    // log.info("Index set error:" + e.getMessage());
+    // assertTrue(false);
+    // }
+    // }
+    //
+    // /**
+    // * IndexSet Test
+    // */
+    // public void testIndexGet() {
+    // Client client = new Client(apikey, certpath, sign_params_creator,
+    // sign_params_created, sign_params_nonce,
+    // sign_params_privatekeyBase64, address, enableCrypto);
+    // Wallet wallet = new Wallet(client);
+    //
+    // String strdata =
+    // "{\"indexs\":{\"combined_index\":[\"first-me\",\"second-me\",\"third-me\"],\"individual_index\":[\"individual-me-001\",\"individual-me-002\",\"individual-me-003\"]}}";
+    //
+    // JSONObject jsondata = JSON.parseObject(strdata);
+    //
+    // JSONObject jsonheader = JSON.parseObject(strheader);
+    // try {
+    // fileHandler = new FileHandler("wallet.log");
+    // fileHandler.setFormatter(new LogHander());
+    // log.addHandler(fileHandler);
+    // log.info("Index set body: " + strdata);
+    //
+    // JSONObject response = wallet.IndexGet(jsonheader, jsondata);
+    // log.info("Index get response: " + response.toString());
+    //
+    // // if (response.getInteger("ErrCode") != 0) {
+    // // assertTrue(false);
+    // // }
+    //
+    // assertTrue(true);
+    // } catch (Exception e) {
+    // log.info("Index get error:" + e.getMessage());
     // assertTrue(false);
     // }
     // }
@@ -400,6 +471,35 @@ public class WalletTest extends TestCase {
     // }
     // }
     //
+
+    // /**
+    // * UploadPOETest Test
+    // */
+    // public void UploadPOETest() {
+    // Client client = new Client(apikey, certpath, sign_params_creator,
+    // sign_params_created, sign_params_nonce,
+    // sign_params_privatekeyBase64, address, true);
+    // Wallet wallet = new Wallet(client);
+    //
+    // JSONObject jsonheader = JSON.parseObject(strheader);
+    //
+    // try {
+    // fileHandler = new FileHandler("wallet.log");
+    // fileHandler.setFormatter(new LogHander());
+    // log.addHandler(fileHandler);
+    //
+    // JSONObject response = wallet.UploadFile(jsonheader,
+    // "/Users/yan/upload_poe_file.a",
+    // "did:axn:39621915-6735-4bb4-b710-49295181d5ba", false);
+    // log.info("UploadPOETest response: " + response.toString());
+    //
+    // assertTrue(true);
+    // } catch (Exception e) {
+    // log.info("UploadPOETest error: " + e.getMessage());
+    // assertTrue(false);
+    // }
+    // }
+
     class LogHander extends Formatter {
         @Override
         public String format(LogRecord record) {
