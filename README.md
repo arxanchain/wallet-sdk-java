@@ -114,7 +114,7 @@ Also you need to confirm the `sign-util` has the executable permission, when you
 
         JSONObject jsonheader = JSON.parseObject(strheader);
         
-        JSONObject response = wallet.Register(jsonheader, jsondata);
+        JSONObject response = wallet.register(jsonheader, jsondata);
        
 ```
 
@@ -131,7 +131,7 @@ Also you need to confirm the `sign-util` has the executable permission, when you
 
         JSONObject jsonheader = JSON.parseObject(strheader);
         
-        JSONObject response = wallet.CreatePOE(jsonheader, jsondata, did, created, nonce, privatekeyBase64);
+        JSONObject response = wallet.createPOE(jsonheader, jsondata, did, created, nonce, privatekeyBase64);
 
 ```
 
@@ -147,7 +147,7 @@ Also you need to confirm the `sign-util` has the executable permission, when you
 
         JSONObject jsonheader = JSON.parseObject(strheader);
 
-        JSONObject response = wallet.IssueTokens(jsonheader, jsondata, "did:axn:039aff10-b96b-4c76-86d0-73b5a74d2ca2", created, nonce, privatekeyBase64);
+        JSONObject response = wallet.issueTokens(jsonheader, jsondata, "did:axn:039aff10-b96b-4c76-86d0-73b5a74d2ca2", created, nonce, privatekeyBase64);
 
 ```
 

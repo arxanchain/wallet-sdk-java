@@ -109,7 +109,7 @@ public class WalletTest extends TestCase {
     // log.addHandler(fileHandler);
     // log.info("Register wallet body: " + strdata);
     //
-    // JSONObject jsonResponse = wallet.Register(jsonheader, jsondata);
+    // JSONObject jsonResponse = wallet.register(jsonheader, jsondata);
     //
     // log.info("Register wallet response: " + jsonResponse.toString());
     //
@@ -154,7 +154,7 @@ public class WalletTest extends TestCase {
     // log.addHandler(fileHandler);
     // log.info("Index set body: " + strdata);
     //
-    // JSONObject response = wallet.IndexSet(jsonheader, jsondata);
+    // JSONObject response = wallet.indexSet(jsonheader, jsondata);
     // log.info("Index set response: " + response.toString());
     //
     // // if (response.getInteger("ErrCode") != 0) {
@@ -189,7 +189,7 @@ public class WalletTest extends TestCase {
     // log.addHandler(fileHandler);
     // log.info("Index set body: " + strdata);
     //
-    // JSONObject response = wallet.IndexGet(jsonheader, jsondata);
+    // JSONObject response = wallet.indexGet(jsonheader, jsondata);
     // log.info("Index get response: " + response.toString());
     //
     // // if (response.getInteger("ErrCode") != 0) {
@@ -227,7 +227,7 @@ public class WalletTest extends TestCase {
             log.addHandler(fileHandler);
             log.info("Create poe body: " + strdata);
 
-            JSONObject response = wallet.CreatePOE(jsonheader, jsondata, walletID, created, nonce, privateKeyBase64,
+            JSONObject response = wallet.createPOE(jsonheader, jsondata, walletID, created, nonce, privateKeyBase64,
                     "/Users/yan/eclipse-workspace/java-common/src/main/resources/sign-util");
             log.info("Create poe response: " + response);
 
@@ -265,7 +265,7 @@ public class WalletTest extends TestCase {
     // 34, 49, 56,50,48, 49, 51, 57,49, 56, 48, 57, 34, 125]}";
     // log.info("Issue poe first try create poe: " + createData);
     // JSONObject jsonCreate = JSON.parseObject(createData);
-    // JSONObject createResponse = wallet.CreatePOE(jsonheader, jsonCreate,
+    // JSONObject createResponse = wallet.createPOE(jsonheader, jsonCreate,
     // walletID, created, nonce,
     // privateKeyBase64,
     // "/Users/yan/eclipse-workspace/java-common/src/main/resources/sign-util");
@@ -280,7 +280,7 @@ public class WalletTest extends TestCase {
     // log.addHandler(fileHandler);
     // log.info("Issue poe body: " + strdata);
     //
-    // JSONObject response = wallet.IssueTokens(jsonheader, jsondata, walletID,
+    // JSONObject response = wallet.issueTokens(jsonheader, jsondata, walletID,
     // created, nonce, privateKeyBase64,
     // "/Users/yan/eclipse-workspace/java-common/src/main/resources/sign-util");
     // log.info("Issue poe response: " + response.toString());
@@ -315,7 +315,7 @@ public class WalletTest extends TestCase {
     // log.addHandler(fileHandler);
     // log.info("Query wallet balance walletID: " + walletID);
     //
-    // JSONObject response = wallet.QueryWalletBalance(jsonheader, walletID);
+    // JSONObject response = wallet.queryWalletBalance(jsonheader, walletID);
     // log.info("Query wallet balance response: " + response.toString());
     // //
     // // if (response.getInteger("ErrCode") != 0) {
@@ -356,7 +356,7 @@ public class WalletTest extends TestCase {
     // log.addHandler(fileHandler);
     // log.info("Transfer tokens body: " + strdata);
     //
-    // JSONObject response = wallet.TransferTokens(jsonheader, jsondata, walletID,
+    // JSONObject response = wallet.transferTokens(jsonheader, jsondata, walletID,
     // created, nonce,
     // privateKeyBase64,
     // "/Users/yan/work/gospace/src/github.com/arxanchain/sdk-go-common/crypto/tools/build/bin/sign-util");
@@ -394,7 +394,7 @@ public class WalletTest extends TestCase {
     // 34, 49, 56,50,48, 49, 51, 57,49, 56, 48, 57, 34, 125]}";
     // log.info("Issue poe first try create poe: " + createData);
     // JSONObject jsonCreate = JSON.parseObject(createData);
-    // JSONObject createResponse = wallet.CreatePOE(jsonheader, jsonCreate,
+    // JSONObject createResponse = wallet.createPOE(jsonheader, jsonCreate,
     // walletID, created, nonce,
     // privateKeyBase64,
     // "/Users/yan/eclipse-workspace/java-common/src/main/resources/sign-util");
@@ -409,7 +409,7 @@ public class WalletTest extends TestCase {
     // log.addHandler(fileHandler);
     // log.info("Issue poe body: " + strdata);
     //
-    // JSONObject response = wallet.IssueAssets(jsonheader, jsondata, walletID,
+    // JSONObject response = wallet.issueAssets(jsonheader, jsondata, walletID,
     // created, nonce, privateKeyBase64,
     // "/Users/yan/eclipse-workspace/java-common/src/main/resources/sign-util");
     // log.info("Issue poe response: " + response.toString());
@@ -454,7 +454,7 @@ public class WalletTest extends TestCase {
     // log.addHandler(fileHandler);
     // log.info("Transfer tokens body: " + strdata);
     //
-    // JSONObject response = wallet.TransferAssets(jsonheader, jsondata, walletID,
+    // JSONObject response = wallet.transferAssets(jsonheader, jsondata, walletID,
     // created, nonce,
     // privateKeyBase64,
     // "/Users/yan/work/gospace/src/github.com/arxanchain/sdk-go-common/crypto/tools/build/bin/sign-util");
@@ -488,7 +488,7 @@ public class WalletTest extends TestCase {
     // fileHandler.setFormatter(new LogHander());
     // log.addHandler(fileHandler);
     //
-    // JSONObject response = wallet.UploadFile(jsonheader,
+    // JSONObject response = wallet.uploadFile(jsonheader,
     // "/Users/yan/upload_poe_file.a",
     // "did:axn:39621915-6735-4bb4-b710-49295181d5ba", false);
     // log.info("UploadPOETest response: " + response.toString());
