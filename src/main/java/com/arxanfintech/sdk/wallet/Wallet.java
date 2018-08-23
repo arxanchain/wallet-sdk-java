@@ -56,7 +56,7 @@ public class Wallet {
         }
     }
 
-    public JSONObject Register(JSONObject jsonheader, JSONObject jsonbody) throws Exception {
+    public JSONObject register(JSONObject jsonheader, JSONObject jsonbody) throws Exception {
         Request request = new Request();
         request.client = this.client;
         request.body = jsonbody;
@@ -75,7 +75,7 @@ public class Wallet {
         }
     }
 
-    public JSONObject RegisterSubWallet(JSONObject jsonheader, JSONObject jsonbody) throws Exception {
+    public JSONObject registerSubWallet(JSONObject jsonheader, JSONObject jsonbody) throws Exception {
         Request request = new Request();
         request.client = this.client;
         request.body = jsonbody;
@@ -94,7 +94,7 @@ public class Wallet {
         }
     }
 
-    public JSONObject QueryWalletInfos(JSONObject jsonheader, String id) throws Exception {
+    public JSONObject queryWalletInfos(JSONObject jsonheader, String id) throws Exception {
         Request request = new Request();
         request.client = this.client;
         request.header = jsonheader;
@@ -112,7 +112,7 @@ public class Wallet {
         }
     }
 
-    public JSONObject QueryWalletBalance(JSONObject jsonheader, String id) throws Exception {
+    public JSONObject queryWalletBalance(JSONObject jsonheader, String id) throws Exception {
         Request request = new Request();
         request.client = this.client;
         request.header = jsonheader;
@@ -130,7 +130,7 @@ public class Wallet {
         }
     }
 
-    public JSONObject CreatePOE(JSONObject jsonheader, JSONObject payload, String creator, String created, String nonce,
+    public JSONObject createPOE(JSONObject jsonheader, JSONObject payload, String creator, String created, String nonce,
             String privateKeyBase64, String signToolPath) throws Exception {
 
         Request request = new Request();
@@ -153,7 +153,7 @@ public class Wallet {
         }
     }
 
-    public JSONObject UpdatePOE(JSONObject jsonheader, JSONObject payload, String creator, String created, String nonce,
+    public JSONObject updatePOE(JSONObject jsonheader, JSONObject payload, String creator, String created, String nonce,
             String privateKeyBase64, String signToolPath) throws Exception {
 
         Request request = new Request();
@@ -176,7 +176,7 @@ public class Wallet {
         }
     }
 
-    public JSONObject QueryPOE(JSONObject jsonheader, String id) throws Exception {
+    public JSONObject queryPOE(JSONObject jsonheader, String id) throws Exception {
         Request request = new Request();
         request.client = this.client;
         request.header = jsonheader;
@@ -194,7 +194,7 @@ public class Wallet {
         }
     }
 
-    public JSONObject IssueTokens(JSONObject jsonheader, JSONObject payload, String creator, String created,
+    public JSONObject issueTokens(JSONObject jsonheader, JSONObject payload, String creator, String created,
             String nonce, String privateKeyBase64, String signToolPath) throws Exception {
         Request request = new Request();
         request.client = this.client;
@@ -245,7 +245,7 @@ public class Wallet {
         }
     }
 
-    public JSONObject TransferTokens(JSONObject jsonheader, JSONObject payload, String creator, String created,
+    public JSONObject transferTokens(JSONObject jsonheader, JSONObject payload, String creator, String created,
             String nonce, String privateKeyBase64, String signToolPath) throws Exception {
         Request request = new Request();
         request.client = this.client;
@@ -291,7 +291,7 @@ public class Wallet {
         }
     }
 
-    public JSONObject IssueAssets(JSONObject jsonheader, JSONObject payload, String creator, String created,
+    public JSONObject issueAssets(JSONObject jsonheader, JSONObject payload, String creator, String created,
             String nonce, String privateKeyBase64, String signToolPath) throws Exception {
         Request request = new Request();
         request.client = this.client;
@@ -335,7 +335,7 @@ public class Wallet {
         }
     }
 
-    public JSONObject TransferAssets(JSONObject jsonheader, JSONObject payload, String creator, String created,
+    public JSONObject transferAssets(JSONObject jsonheader, JSONObject payload, String creator, String created,
             String nonce, String privateKeyBase64, String signToolPath) throws Exception {
         Request request = new Request();
         request.client = this.client;
@@ -446,7 +446,7 @@ public class Wallet {
         }
     }
 
-    public JSONObject QueryTransactionLogs(JSONObject jsonheader, String type, Boolean isEndpoint, String endpointOrId)
+    public JSONObject queryTransactionLogs(JSONObject jsonheader, String type, Boolean isEndpoint, String endpointOrId)
             throws Exception {
         Request request = new Request();
         request.client = this.client;
@@ -471,7 +471,7 @@ public class Wallet {
         }
     }
 
-    public JSONObject IndexSet(JSONObject jsonheader, JSONObject jsonbody) {
+    public JSONObject indexSet(JSONObject jsonheader, JSONObject jsonbody) {
         Request request = new Request();
         request.client = this.client;
         request.body = jsonbody;
@@ -489,7 +489,7 @@ public class Wallet {
         }
     }
 
-    public JSONObject IndexGet(JSONObject jsonheader, JSONObject jsonbody) {
+    public JSONObject indexGet(JSONObject jsonheader, JSONObject jsonbody) {
         Request request = new Request();
         request.client = this.client;
         request.body = jsonbody;
@@ -508,7 +508,7 @@ public class Wallet {
         }
     }
 
-    public JSONObject UploadFile(JSONObject jsonheader, String pathFile, String poeID, Boolean readOnly) {
+    public JSONObject uploadFile(JSONObject jsonheader, String pathFile, String poeID, Boolean readOnly) {
         try {
             Map<String, String> mapHeader = Utils.JsonToMap(jsonheader);
             mapHeader.put(Headers.APIKeyHeader, this.client.GetApiKey());

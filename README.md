@@ -21,7 +21,7 @@ When you use wallet-sdk-java, you should reference project like this:
 <dependency>
     <groupId>com.arxanfintech</groupId>
     <artifactId>wallet-sdk-java</artifactId>
-    <version>2.1test</version>
+    <version>2.1.1</version>
 </dependency>
 ```
 
@@ -92,14 +92,14 @@ you should build the `sdk-go-common` executables `sign-util` on your OS.
 For more details please refer to [sdk-go-common](https://github.com/arxanchain/sdk-go-common/tree/master/crypto/tools)
 
 #### Build
-After successfully installed **sdk-go-common**, you need to install golang and you should've configured your **GOPAH** environment variable, use the following command to build sign-util executables.
+After successfully installed **sdk-go-common**, you need to install golang and you should've configured your **GOPATH** environment variable, use the following command to build sign-util executables.
 
 ```sh
 $ cd $GOPATH/src/github.com/arxanchain/sdk-go-common/crypto/tools
 $ make
 ```
 
-The executables full path is your signToolPath like `/Users/ivy/src/github.com/arxanchain/sdk-go-common/crypto/tools/build/sign-util`.
+The executables full path is your signToolPath like `/Users/ivy/src/github.com/arxanchain/sdk-go-common/crypto/tools/build/bin/sign-util`.
 
 Also you need to confirm the `sign-util` has the executable permission, when you use linux or Mac, you should run `chmod +x sign-util`.
 
@@ -113,7 +113,7 @@ Also you need to confirm the `sign-util` has the executable permission, when you
 
         JSONObject jsonheader = JSON.parseObject(strheader);
         
-        JSONObject response = wallet.Register(jsonheader, jsondata);
+        JSONObject response = wallet.register(jsonheader, jsondata);
        
 ```
 
@@ -130,7 +130,7 @@ Also you need to confirm the `sign-util` has the executable permission, when you
 
         JSONObject jsonheader = JSON.parseObject(strheader);
         
-        JSONObject response = wallet.CreatePOE(jsonheader, jsondata, did, created, nonce, privatekeyBase64);
+        JSONObject response = wallet.createPOE(jsonheader, jsondata, did, created, nonce, privatekeyBase64);
 
 ```
 
@@ -146,7 +146,7 @@ Also you need to confirm the `sign-util` has the executable permission, when you
 
         JSONObject jsonheader = JSON.parseObject(strheader);
 
-        JSONObject response = wallet.IssueTokens(jsonheader, jsondata, "did:axn:039aff10-b96b-4c76-86d0-73b5a74d2ca2", created, nonce, privatekeyBase64);
+        JSONObject response = wallet.issueTokens(jsonheader, jsondata, "did:axn:039aff10-b96b-4c76-86d0-73b5a74d2ca2", created, nonce, privatekeyBase64);
 
 ```
 
@@ -157,17 +157,17 @@ Also you need to confirm the `sign-util` has the executable permission, when you
 
         JSONObject jsonheader = JSON.parseObject(strheader);
 
-        JSONObject response = wallet.IndexSet(jsonheader, jsondata);
+        JSONObject response = wallet.indexSet(jsonheader, jsondata);
 ```
 
 ### Index get 
 ```java
-        String strdata = "{\"id\":\"did:axn:64ec602c-c9e5-4835-8e63-c6f0a619805c\",\"indexs\":{\"combined_index\":[\"first-me\",\"second-me\",\"third-meu\"],\"individual_index\":[\"individual-me-001\",\"individual-me-002\",\"individual-me-003\"]}}";
+        String strdata ="{\"indexs\":{\"combined_index\":[\"first-me\",\"second-me\",\"third-me\"],\"individual_index\":[\"individual-me-001\",\"individual-me-002\",\"individual-me-003\"]}}";
         JSONObject jsondata = JSON.parseObject(strdata);
         
         JSONObject jsonheader = JSON.parseObject(strheader);
 
-        JSONObject response = wallet.IndexGet(jsonheader, jsondata);
+        JSONObject response = wallet.indexGet(jsonheader, jsondata);
 ```
 
 ### Use callback URL to receive blockchain transaction events
