@@ -39,6 +39,12 @@ public class Wallet {
     private Client client;
     private Crypto crypto;
 
+    /***
+     * new wallet
+     * 
+     * @param client
+     *            base info with enterprise's did/nonce/created/privateKeyBase64
+     */
     public Wallet(Client client) {
         if (client.GetRouteTag() == null || client.GetRouteTag() == "") {
             client.SetRouteTag("wallet-ng");
@@ -56,6 +62,17 @@ public class Wallet {
         }
     }
 
+    /***
+     * register wallet API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param jsonbody
+     *            JSONObject body data
+     * @return JSONObject response
+     * @throws Exception
+     *             register error
+     */
     public JSONObject register(JSONObject jsonheader, JSONObject jsonbody) throws Exception {
         Request request = new Request();
         request.client = this.client;
@@ -75,6 +92,17 @@ public class Wallet {
         }
     }
 
+    /***
+     * register subwallet API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param jsonbody
+     *            JSONObject body data
+     * @return JSONObject response
+     * @throws Exception
+     *             register subwallet error
+     */
     public JSONObject registerSubWallet(JSONObject jsonheader, JSONObject jsonbody) throws Exception {
         Request request = new Request();
         request.client = this.client;
@@ -94,6 +122,17 @@ public class Wallet {
         }
     }
 
+    /***
+     * query wallet infos API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param id
+     *            wallet did which you want to query
+     * @return JSONObject wallet infos
+     * @throws Exception
+     *             query wallet infos error
+     */
     public JSONObject queryWalletInfos(JSONObject jsonheader, String id) throws Exception {
         Request request = new Request();
         request.client = this.client;
@@ -112,6 +151,17 @@ public class Wallet {
         }
     }
 
+    /***
+     * query wallet balance API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param id
+     *            wallet did which you want to query
+     * @return JSONObject wallet balance
+     * @throws Exception
+     *             query wallet balance error
+     */
     public JSONObject queryWalletBalance(JSONObject jsonheader, String id) throws Exception {
         Request request = new Request();
         request.client = this.client;
@@ -130,6 +180,27 @@ public class Wallet {
         }
     }
 
+    /***
+     * create POE API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param payload
+     *            JSONObject payload data
+     * @param creator
+     *            wallet did which wallet need create poe
+     * @param created
+     *            created which wallet need create poe
+     * @param nonce
+     *            nonce which wallet need create poe
+     * @param privateKeyBase64
+     *            wallet private key base64 which wallet need create poe
+     * @param signToolPath
+     *            sign tool full path (make in sdk-go-common project)
+     * @return JSONObject response
+     * @throws Exception
+     *             create poe error
+     */
     public JSONObject createPOE(JSONObject jsonheader, JSONObject payload, String creator, String created, String nonce,
             String privateKeyBase64, String signToolPath) throws Exception {
 
@@ -153,6 +224,27 @@ public class Wallet {
         }
     }
 
+    /***
+     * update POE API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param payload
+     *            JSONObject payload data
+     * @param creator
+     *            wallet did which wallet need update poe
+     * @param created
+     *            created which wallet need update poe
+     * @param nonce
+     *            nonce which wallet need update poe
+     * @param privateKeyBase64
+     *            wallet private key base64 which wallet need update poe
+     * @param signToolPath
+     *            sign tool full path (make in sdk-go-common project)
+     * @return JSONObject response
+     * @throws Exception
+     *             update poe error
+     */
     public JSONObject updatePOE(JSONObject jsonheader, JSONObject payload, String creator, String created, String nonce,
             String privateKeyBase64, String signToolPath) throws Exception {
 
@@ -176,6 +268,17 @@ public class Wallet {
         }
     }
 
+    /***
+     * query POE
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param id
+     *            POE id which poe need quey
+     * @return POE info
+     * @throws Exception
+     *             query poe error
+     */
     public JSONObject queryPOE(JSONObject jsonheader, String id) throws Exception {
         Request request = new Request();
         request.client = this.client;
@@ -194,6 +297,27 @@ public class Wallet {
         }
     }
 
+    /***
+     * issue tokens API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param payload
+     *            JSONObject payload data
+     * @param creator
+     *            wallet did which wallet need issue tokens
+     * @param created
+     *            created which wallet need issue tokens
+     * @param nonce
+     *            nonce which wallet need issue tokens
+     * @param privateKeyBase64
+     *            wallet private key base64 which wallet need issue tokens
+     * @param signToolPath
+     *            sign tool full path (make in sdk-go-common project)
+     * @return JSONObject response
+     * @throws Exception
+     *             issue tokens error
+     */
     public JSONObject issueTokens(JSONObject jsonheader, JSONObject payload, String creator, String created,
             String nonce, String privateKeyBase64, String signToolPath) throws Exception {
         Request request = new Request();
@@ -245,6 +369,27 @@ public class Wallet {
         }
     }
 
+    /***
+     * transfer tokens API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param payload
+     *            JSONObject payload data
+     * @param creator
+     *            wallet did which wallet need transfer tokens
+     * @param created
+     *            created which wallet need transfer tokens
+     * @param nonce
+     *            nonce which wallet need transfer tokens
+     * @param privateKeyBase64
+     *            wallet private key base64 which wallet need transfer tokens
+     * @param signToolPath
+     *            sign tool full path (make in sdk-go-common project)
+     * @return JSONObject response
+     * @throws Exception
+     *             transfer tokens error
+     */
     public JSONObject transferTokens(JSONObject jsonheader, JSONObject payload, String creator, String created,
             String nonce, String privateKeyBase64, String signToolPath) throws Exception {
         Request request = new Request();
@@ -291,6 +436,27 @@ public class Wallet {
         }
     }
 
+    /***
+     * issue assets API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param payload
+     *            JSONObject payload data
+     * @param creator
+     *            wallet did which wallet need issue assets
+     * @param created
+     *            created which wallet need issue assets
+     * @param nonce
+     *            nonce which wallet need issue assets
+     * @param privateKeyBase64
+     *            wallet private key base64 which wallet need issue assets
+     * @param signToolPath
+     *            sign tool full path (make in sdk-go-common project)
+     * @return JSONObject response
+     * @throws Exception
+     *             issue assets error
+     */
     public JSONObject issueAssets(JSONObject jsonheader, JSONObject payload, String creator, String created,
             String nonce, String privateKeyBase64, String signToolPath) throws Exception {
         Request request = new Request();
@@ -335,6 +501,27 @@ public class Wallet {
         }
     }
 
+    /***
+     * transfer assets API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param payload
+     *            JSONObject payload data
+     * @param creator
+     *            wallet did which wallet need transfer assets
+     * @param created
+     *            created which wallet need transfer assets
+     * @param nonce
+     *            nonce which wallet need transfer assets
+     * @param privateKeyBase64
+     *            wallet private key base64 which wallet need transfer assets
+     * @param signToolPath
+     *            sign tool full path (make in sdk-go-common project)
+     * @return JSONObject response
+     * @throws Exception
+     *             transfer assets error
+     */
     public JSONObject transferAssets(JSONObject jsonheader, JSONObject payload, String creator, String created,
             String nonce, String privateKeyBase64, String signToolPath) throws Exception {
         Request request = new Request();
@@ -446,6 +633,21 @@ public class Wallet {
         }
     }
 
+    /***
+     * query transactionLogs API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param type
+     *            type in/out selectable
+     * @param isEndpoint
+     *            is query type endpoint. true for endpoint false for id
+     * @param endpointOrId
+     *            endpoint or id
+     * @return JSONObject response
+     * @throws Exception
+     *             query transactionLogs error
+     */
     public JSONObject queryTransactionLogs(JSONObject jsonheader, String type, Boolean isEndpoint, String endpointOrId)
             throws Exception {
         Request request = new Request();
@@ -471,6 +673,17 @@ public class Wallet {
         }
     }
 
+    /***
+     * index set API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param jsonbody
+     *            JSONObject body data
+     * @return JSONObject response
+     * @throws Exception
+     *             index set error
+     */
     public JSONObject indexSet(JSONObject jsonheader, JSONObject jsonbody) {
         Request request = new Request();
         request.client = this.client;
@@ -489,6 +702,17 @@ public class Wallet {
         }
     }
 
+    /***
+     * index get API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param jsonbody
+     *            JSONObject body data
+     * @return JSONObject response
+     * @throws Exception
+     *             index get error
+     */
     public JSONObject indexGet(JSONObject jsonheader, JSONObject jsonbody) {
         Request request = new Request();
         request.client = this.client;
@@ -508,6 +732,19 @@ public class Wallet {
         }
     }
 
+    /***
+     * upload file for poe
+     * 
+     * @param jsonheader
+     *            JSONObeject header data
+     * @param pathFile
+     *            upload file full path
+     * @param poeID
+     *            POE id which poe need upload file
+     * @param readOnly
+     *            poe file read only
+     * @return JSONObject response
+     */
     public JSONObject uploadFile(JSONObject jsonheader, String pathFile, String poeID, Boolean readOnly) {
         try {
             Map<String, String> mapHeader = Utils.JsonToMap(jsonheader);
