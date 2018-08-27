@@ -71,7 +71,6 @@ public class Tools {
             return sb.toString();
         } catch (Exception e) {
             System.out.println("GetMultipartData error: " + e);
-            e.printStackTrace();
             return null;
         }
     }
@@ -115,7 +114,6 @@ public class Tools {
 
         } catch (Exception e) {
             System.out.println("Get File " + fileName + " error: " + e);
-            e.printStackTrace();
             return null;
         } finally {
             try {
@@ -124,7 +122,6 @@ public class Tools {
                 bis.close();
                 fis.close();
             } catch (IOException e) {
-                e.printStackTrace();
             }
 
         }
