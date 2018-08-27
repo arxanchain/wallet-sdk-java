@@ -115,7 +115,6 @@ public class Tools {
 
         } catch (Exception e) {
             System.out.println("Get File " + fileName + " error: " + e);
-            e.printStackTrace();
             return null;
         } finally {
             try {
