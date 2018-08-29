@@ -15,52 +15,12 @@ limitations under the License.
 *******************************************************************************/
 package com.arxanfintech.sdk.wallet;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.SignatureException;
-import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.net.ssl.SSLContext;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.SSLContexts;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
 
 import com.arxanfintech.common.crypto.Crypto;
 import com.arxanfintech.common.rest.*;
-import com.arxanfintech.common.structs.RegisterWalletBody;
 import com.arxanfintech.common.structs.Headers;
-import com.arxanfintech.common.util.JsonUtil;
 import com.arxanfintech.common.util.Utils;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -68,7 +28,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.bouncycastle.util.encoders.Base64;
-import org.spongycastle.crypto.InvalidCipherTextException;
 
 /**
  * 
@@ -80,6 +39,12 @@ public class Wallet {
     private Client client;
     private Crypto crypto;
 
+    /***
+     * new wallet
+     * 
+     * @param client
+     *            base info with enterprise's did/nonce/created/privateKeyBase64
+     */
     public Wallet(Client client) {
         if (client.GetRouteTag() == null || client.GetRouteTag() == "") {
             client.SetRouteTag("wallet-ng");
@@ -97,7 +62,18 @@ public class Wallet {
         }
     }
 
-    public JSONObject Register(JSONObject jsonheader, JSONObject jsonbody) throws Exception {
+    /***
+     * register wallet API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param jsonbody
+     *            JSONObject body data
+     * @return JSONObject response
+     * @throws Exception
+     *             register error
+     */
+    public JSONObject register(JSONObject jsonheader, JSONObject jsonbody) throws Exception {
         Request request = new Request();
         request.client = this.client;
         request.body = jsonbody;
@@ -112,11 +88,22 @@ public class Wallet {
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
 
-    public JSONObject RegisterSubWallet(JSONObject jsonheader, JSONObject jsonbody) throws Exception {
+    /***
+     * register subwallet API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param jsonbody
+     *            JSONObject body data
+     * @return JSONObject response
+     * @throws Exception
+     *             register subwallet error
+     */
+    public JSONObject registerSubWallet(JSONObject jsonheader, JSONObject jsonbody) throws Exception {
         Request request = new Request();
         request.client = this.client;
         request.body = jsonbody;
@@ -131,11 +118,22 @@ public class Wallet {
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
 
-    public JSONObject QueryWalletInfos(JSONObject jsonheader, String id) throws Exception {
+    /***
+     * query wallet infos API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param id
+     *            wallet did which you want to query
+     * @return JSONObject wallet infos
+     * @throws Exception
+     *             query wallet infos error
+     */
+    public JSONObject queryWalletInfos(JSONObject jsonheader, String id) throws Exception {
         Request request = new Request();
         request.client = this.client;
         request.header = jsonheader;
@@ -149,11 +147,22 @@ public class Wallet {
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
 
-    public JSONObject QueryWalletBalance(JSONObject jsonheader, String id) throws Exception {
+    /***
+     * query wallet balance API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param id
+     *            wallet did which you want to query
+     * @return JSONObject wallet balance
+     * @throws Exception
+     *             query wallet balance error
+     */
+    public JSONObject queryWalletBalance(JSONObject jsonheader, String id) throws Exception {
         Request request = new Request();
         request.client = this.client;
         request.header = jsonheader;
@@ -167,11 +176,32 @@ public class Wallet {
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
 
-    public JSONObject CreatePOE(JSONObject jsonheader, JSONObject payload, String creator, String created, String nonce,
+    /***
+     * create POE API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param payload
+     *            JSONObject payload data
+     * @param creator
+     *            wallet did which wallet need create poe
+     * @param created
+     *            created which wallet need create poe
+     * @param nonce
+     *            nonce which wallet need create poe
+     * @param privateKeyBase64
+     *            wallet private key base64 which wallet need create poe
+     * @param signToolPath
+     *            sign tool full path (make in sdk-go-common project)
+     * @return JSONObject response
+     * @throws Exception
+     *             create poe error
+     */
+    public JSONObject createPOE(JSONObject jsonheader, JSONObject payload, String creator, String created, String nonce,
             String privateKeyBase64, String signToolPath) throws Exception {
 
         Request request = new Request();
@@ -190,11 +220,32 @@ public class Wallet {
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
 
-    public JSONObject UpdatePOE(JSONObject jsonheader, JSONObject payload, String creator, String created, String nonce,
+    /***
+     * update POE API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param payload
+     *            JSONObject payload data
+     * @param creator
+     *            wallet did which wallet need update poe
+     * @param created
+     *            created which wallet need update poe
+     * @param nonce
+     *            nonce which wallet need update poe
+     * @param privateKeyBase64
+     *            wallet private key base64 which wallet need update poe
+     * @param signToolPath
+     *            sign tool full path (make in sdk-go-common project)
+     * @return JSONObject response
+     * @throws Exception
+     *             update poe error
+     */
+    public JSONObject updatePOE(JSONObject jsonheader, JSONObject payload, String creator, String created, String nonce,
             String privateKeyBase64, String signToolPath) throws Exception {
 
         Request request = new Request();
@@ -213,11 +264,22 @@ public class Wallet {
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
 
-    public JSONObject QueryPOE(JSONObject jsonheader, String id) throws Exception {
+    /***
+     * query POE
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param id
+     *            POE id which poe need quey
+     * @return POE info
+     * @throws Exception
+     *             query poe error
+     */
+    public JSONObject queryPOE(JSONObject jsonheader, String id) throws Exception {
         Request request = new Request();
         request.client = this.client;
         request.header = jsonheader;
@@ -231,11 +293,32 @@ public class Wallet {
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
 
-    public JSONObject IssueTokens(JSONObject jsonheader, JSONObject payload, String creator, String created,
+    /***
+     * issue tokens API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param payload
+     *            JSONObject payload data
+     * @param creator
+     *            wallet did which wallet need issue tokens
+     * @param created
+     *            created which wallet need issue tokens
+     * @param nonce
+     *            nonce which wallet need issue tokens
+     * @param privateKeyBase64
+     *            wallet private key base64 which wallet need issue tokens
+     * @param signToolPath
+     *            sign tool full path (make in sdk-go-common project)
+     * @return JSONObject response
+     * @throws Exception
+     *             issue tokens error
+     */
+    public JSONObject issueTokens(JSONObject jsonheader, JSONObject payload, String creator, String created,
             String nonce, String privateKeyBase64, String signToolPath) throws Exception {
         Request request = new Request();
         request.client = this.client;
@@ -282,11 +365,32 @@ public class Wallet {
 
             return result;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
 
-    public JSONObject TransferTokens(JSONObject jsonheader, JSONObject payload, String creator, String created,
+    /***
+     * transfer tokens API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param payload
+     *            JSONObject payload data
+     * @param creator
+     *            wallet did which wallet need transfer tokens
+     * @param created
+     *            created which wallet need transfer tokens
+     * @param nonce
+     *            nonce which wallet need transfer tokens
+     * @param privateKeyBase64
+     *            wallet private key base64 which wallet need transfer tokens
+     * @param signToolPath
+     *            sign tool full path (make in sdk-go-common project)
+     * @return JSONObject response
+     * @throws Exception
+     *             transfer tokens error
+     */
+    public JSONObject transferTokens(JSONObject jsonheader, JSONObject payload, String creator, String created,
             String nonce, String privateKeyBase64, String signToolPath) throws Exception {
         Request request = new Request();
         request.client = this.client;
@@ -328,11 +432,32 @@ public class Wallet {
         } catch (
 
         Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
 
-    public JSONObject IssueAssets(JSONObject jsonheader, JSONObject payload, String creator, String created,
+    /***
+     * issue assets API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param payload
+     *            JSONObject payload data
+     * @param creator
+     *            wallet did which wallet need issue assets
+     * @param created
+     *            created which wallet need issue assets
+     * @param nonce
+     *            nonce which wallet need issue assets
+     * @param privateKeyBase64
+     *            wallet private key base64 which wallet need issue assets
+     * @param signToolPath
+     *            sign tool full path (make in sdk-go-common project)
+     * @return JSONObject response
+     * @throws Exception
+     *             issue assets error
+     */
+    public JSONObject issueAssets(JSONObject jsonheader, JSONObject payload, String creator, String created,
             String nonce, String privateKeyBase64, String signToolPath) throws Exception {
         Request request = new Request();
         request.client = this.client;
@@ -372,11 +497,32 @@ public class Wallet {
 
             return result;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
 
-    public JSONObject TransferAssets(JSONObject jsonheader, JSONObject payload, String creator, String created,
+    /***
+     * transfer assets API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param payload
+     *            JSONObject payload data
+     * @param creator
+     *            wallet did which wallet need transfer assets
+     * @param created
+     *            created which wallet need transfer assets
+     * @param nonce
+     *            nonce which wallet need transfer assets
+     * @param privateKeyBase64
+     *            wallet private key base64 which wallet need transfer assets
+     * @param signToolPath
+     *            sign tool full path (make in sdk-go-common project)
+     * @return JSONObject response
+     * @throws Exception
+     *             transfer assets error
+     */
+    public JSONObject transferAssets(JSONObject jsonheader, JSONObject payload, String creator, String created,
             String nonce, String privateKeyBase64, String signToolPath) throws Exception {
         Request request = new Request();
         request.client = this.client;
@@ -416,7 +562,7 @@ public class Wallet {
 
             return result;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
 
     }
@@ -487,7 +633,22 @@ public class Wallet {
         }
     }
 
-    public JSONObject QueryTransactionLogs(JSONObject jsonheader, String type, Boolean isEndpoint, String endpointOrId)
+    /***
+     * query transactionLogs API
+     * 
+     * @param jsonheader
+     *            JSONObject header data
+     * @param type
+     *            type in/out selectable
+     * @param isEndpoint
+     *            is query type endpoint. true for endpoint false for id
+     * @param endpointOrId
+     *            endpoint or id
+     * @return JSONObject response
+     * @throws Exception
+     *             query transactionLogs error
+     */
+    public JSONObject queryTransactionLogs(JSONObject jsonheader, String type, Boolean isEndpoint, String endpointOrId)
             throws Exception {
         Request request = new Request();
         request.client = this.client;
@@ -508,7 +669,56 @@ public class Wallet {
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
         } catch (Exception e) {
-            return JSON.parseObject("{\"ErrMessage\":" + e.getMessage() + ",\"ErrCode\":-1,\"Method\":\"\"}");
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
         }
     }
+
+    /***
+     * upload file for poe
+     * 
+     * @param jsonheader
+     *            JSONObeject header data
+     * @param pathFile
+     *            upload file full path
+     * @param poeID
+     *            POE id which poe need upload file
+     * @param readOnly
+     *            poe file read only
+     * @return JSONObject response
+     */
+    public JSONObject uploadFile(JSONObject jsonheader, String pathFile, String poeID, Boolean readOnly) {
+        try {
+            Map<String, String> mapHeader = Utils.JsonToMap(jsonheader);
+            mapHeader.put(Headers.APIKeyHeader, this.client.GetApiKey());
+
+            if (this.client.GetRouteTag() != "") {
+                mapHeader.put(Headers.FabioRouteTagHeader, this.client.GetRouteTag());
+                mapHeader.put(Headers.RouteTagHeader, this.client.GetRouteTag());
+            }
+            String url = "http://" + this.client.GetAddress() + "/v1/poe/upload";
+
+            String boundary = "BeginWebKitFormBoundary7MA4YWxkTrZu0gW";
+            mapHeader.put("Content-Type", "multipart/form-data; boundary=" + boundary);
+
+            String body = Tools.GetMultipartData(boundary, pathFile, poeID, readOnly);
+            if (body == null || body == "") {
+                return JSON.parseObject(
+                        "{\"ErrMessage\":\"GetMultipartData error. Please make sure correct pathfile.\",\"ErrCode\":-1,\"Method\":\"\"}");
+            }
+            if (this.client.GetEnableCrypto()) {
+                body = new String(crypto.signAndEncrypt(body.getBytes()));
+            }
+            HttpResponse<String> response = Unirest.post(url).headers(mapHeader).body(body).asString();
+
+            String respData = response.getBody();
+
+            String oriData = this.client.GetEnableCrypto() ? this.crypto.decryptAndVerify(respData.getBytes())
+                    : respData;
+            JSONObject jsonResponse = JSON.parseObject(oriData);
+            return jsonResponse;
+        } catch (Exception e) {
+            return JSON.parseObject("{\"ErrMessage\":\"" + e.getMessage() + "\",\"ErrCode\":-1,\"Method\":\"\"}");
+        }
+    }
+
 }

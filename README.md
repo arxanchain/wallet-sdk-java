@@ -21,7 +21,7 @@ When you use wallet-sdk-java, you should reference project like this:
 <dependency>
     <groupId>com.arxanfintech</groupId>
     <artifactId>wallet-sdk-java</artifactId>
-    <version>2.0.1c</version>
+    <version>2.0.1d</version>
 </dependency>
 ```
 
@@ -67,11 +67,13 @@ Then copy (rename as follows) your TLS certificate and PEM private key file as f
         String signParamsNonce = sign_params_nonce; //the enterprise's nonce
         String signParamsPrivatekeyBase64 = sign_params_privatekeyBase64; //the enterprise's wallet private key 
         String signParamsCreated = "1534723900";
-        String enableCrypto = enableCrypto; //true will enable crypt data
+        Boolean enableCrypto = enableCrypto; //true will enable crypt data
 
         Wallet wallet = new Wallet(client);
-           Client client = new Client(apiKey, certPath, signParamsCreator, signParamsCreated, signParamsNonce,
-                signParamsPrivatekeyBase64, address, enableCrypto);
+           Client client = new Client(
+           apiKey, certPath, signParamsCreator, signParamsCreated, 
+           signParamsNonce, signParamsPrivatekeyBase64, address, 
+           enableCrypto); // enableCrypto default true if not set
         Wallet wallet = new Wallet(client);
         
         // Each of the APIs to invoke blockchain has two invoking modes: - `sync` and `async`. You can set it in http header.
@@ -112,7 +114,7 @@ Also you need to confirm the `sign-util` has the executable permission, when you
 
         JSONObject jsonheader = JSON.parseObject(strheader);
         
-        JSONObject response = wallet.Register(jsonheader, jsondata);
+        JSONObject response = wallet.register(jsonheader, jsondata);
        
 ```
 
@@ -129,7 +131,7 @@ Also you need to confirm the `sign-util` has the executable permission, when you
 
         JSONObject jsonheader = JSON.parseObject(strheader);
         
-        JSONObject response = wallet.CreatePOE(jsonheader, jsondata, did, created, nonce, privatekeyBase64);
+        JSONObject response = wallet.createPOE(jsonheader, jsondata, did, created, nonce, privatekeyBase64);
 
 ```
 
@@ -145,7 +147,7 @@ Also you need to confirm the `sign-util` has the executable permission, when you
 
         JSONObject jsonheader = JSON.parseObject(strheader);
 
-        JSONObject response = wallet.IssueTokens(jsonheader, jsondata, "did:axn:039aff10-b96b-4c76-86d0-73b5a74d2ca2", created, nonce, privatekeyBase64);
+        JSONObject response = wallet.issueTokens(jsonheader, jsondata, "did:axn:039aff10-b96b-4c76-86d0-73b5a74d2ca2", created, nonce, privatekeyBase64);
 
 ```
 

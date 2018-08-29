@@ -97,7 +97,7 @@ public class WalletTest extends TestCase {
     //
     // String strdata = "{\"access\":\"" + access +
     // "\",\"secret\":\"Integrate1230\",\"type\":"
-    // + WalletType.ORGANIZATION.getDesc() + ", \"id\": \"\"}";
+    // + WalletType.ORGANIZATION.getIndex() + ", \"id\": \"\"}";
     //
     // JSONObject jsondata = JSON.parseObject(strdata);
     //
@@ -109,7 +109,7 @@ public class WalletTest extends TestCase {
     // log.addHandler(fileHandler);
     // log.info("Register wallet body: " + strdata);
     //
-    // JSONObject jsonResponse = wallet.Register(jsonheader, jsondata);
+    // JSONObject jsonResponse = wallet.register(jsonheader, jsondata);
     //
     // log.info("Register wallet response: " + jsonResponse.toString());
     //
@@ -128,6 +128,77 @@ public class WalletTest extends TestCase {
     // } catch (Exception e) {
     //
     // log.info("Register wallet error: " + e.getMessage());
+    // assertTrue(false);
+    // }
+    // }
+    //
+    // /**
+    // * IndexSet Test
+    // */
+    // public void testIndexSet() {
+    // Client client = new Client(apikey, certpath, sign_params_creator,
+    // sign_params_created, sign_params_nonce,
+    // sign_params_privatekeyBase64, address, enableCrypto);
+    // Wallet wallet = new Wallet(client);
+    //
+    // String strdata = "{\"id\":\"" + walletID
+    // +
+    // "\",\"indexs\":{\"combined_index\":[\"first-me\",\"second-me\",\"third-me\"],\"individual_index\":[\"individual-me-001\",\"individual-me-002\",\"individual-me-003\"]}}";
+    //
+    // JSONObject jsondata = JSON.parseObject(strdata);
+    //
+    // JSONObject jsonheader = JSON.parseObject(strheader);
+    // try {
+    // fileHandler = new FileHandler("wallet.log");
+    // fileHandler.setFormatter(new LogHander());
+    // log.addHandler(fileHandler);
+    // log.info("Index set body: " + strdata);
+    //
+    // JSONObject response = wallet.indexSet(jsonheader, jsondata);
+    // log.info("Index set response: " + response.toString());
+    //
+    // // if (response.getInteger("ErrCode") != 0) {
+    // // assertTrue(false);
+    // // }
+    //
+    // assertTrue(true);
+    // } catch (Exception e) {
+    // log.info("Index set error:" + e.getMessage());
+    // assertTrue(false);
+    // }
+    // }
+    //
+    // /**
+    // * IndexSet Test
+    // */
+    // public void testIndexGet() {
+    // Client client = new Client(apikey, certpath, sign_params_creator,
+    // sign_params_created, sign_params_nonce,
+    // sign_params_privatekeyBase64, address, enableCrypto);
+    // Wallet wallet = new Wallet(client);
+    //
+    // String strdata =
+    // "{\"indexs\":{\"combined_index\":[\"first-me\",\"second-me\",\"third-me\"],\"individual_index\":[\"individual-me-001\",\"individual-me-002\",\"individual-me-003\"]}}";
+    //
+    // JSONObject jsondata = JSON.parseObject(strdata);
+    //
+    // JSONObject jsonheader = JSON.parseObject(strheader);
+    // try {
+    // fileHandler = new FileHandler("wallet.log");
+    // fileHandler.setFormatter(new LogHander());
+    // log.addHandler(fileHandler);
+    // log.info("Index set body: " + strdata);
+    //
+    // JSONObject response = wallet.indexGet(jsonheader, jsondata);
+    // log.info("Index get response: " + response.toString());
+    //
+    // // if (response.getInteger("ErrCode") != 0) {
+    // // assertTrue(false);
+    // // }
+    //
+    // assertTrue(true);
+    // } catch (Exception e) {
+    // log.info("Index get error:" + e.getMessage());
     // assertTrue(false);
     // }
     // }
@@ -156,7 +227,7 @@ public class WalletTest extends TestCase {
             log.addHandler(fileHandler);
             log.info("Create poe body: " + strdata);
 
-            JSONObject response = wallet.CreatePOE(jsonheader, jsondata, walletID, created, nonce, privateKeyBase64,
+            JSONObject response = wallet.createPOE(jsonheader, jsondata, walletID, created, nonce, privateKeyBase64,
                     "/Users/yan/eclipse-workspace/java-common/src/main/resources/sign-util");
             log.info("Create poe response: " + response);
 
@@ -194,7 +265,7 @@ public class WalletTest extends TestCase {
     // 34, 49, 56,50,48, 49, 51, 57,49, 56, 48, 57, 34, 125]}";
     // log.info("Issue poe first try create poe: " + createData);
     // JSONObject jsonCreate = JSON.parseObject(createData);
-    // JSONObject createResponse = wallet.CreatePOE(jsonheader, jsonCreate,
+    // JSONObject createResponse = wallet.createPOE(jsonheader, jsonCreate,
     // walletID, created, nonce,
     // privateKeyBase64,
     // "/Users/yan/eclipse-workspace/java-common/src/main/resources/sign-util");
@@ -209,7 +280,7 @@ public class WalletTest extends TestCase {
     // log.addHandler(fileHandler);
     // log.info("Issue poe body: " + strdata);
     //
-    // JSONObject response = wallet.IssueTokens(jsonheader, jsondata, walletID,
+    // JSONObject response = wallet.issueTokens(jsonheader, jsondata, walletID,
     // created, nonce, privateKeyBase64,
     // "/Users/yan/eclipse-workspace/java-common/src/main/resources/sign-util");
     // log.info("Issue poe response: " + response.toString());
@@ -244,7 +315,7 @@ public class WalletTest extends TestCase {
     // log.addHandler(fileHandler);
     // log.info("Query wallet balance walletID: " + walletID);
     //
-    // JSONObject response = wallet.QueryWalletBalance(jsonheader, walletID);
+    // JSONObject response = wallet.queryWalletBalance(jsonheader, walletID);
     // log.info("Query wallet balance response: " + response.toString());
     // //
     // // if (response.getInteger("ErrCode") != 0) {
@@ -285,7 +356,7 @@ public class WalletTest extends TestCase {
     // log.addHandler(fileHandler);
     // log.info("Transfer tokens body: " + strdata);
     //
-    // JSONObject response = wallet.TransferTokens(jsonheader, jsondata, walletID,
+    // JSONObject response = wallet.transferTokens(jsonheader, jsondata, walletID,
     // created, nonce,
     // privateKeyBase64,
     // "/Users/yan/work/gospace/src/github.com/arxanchain/sdk-go-common/crypto/tools/build/bin/sign-util");
@@ -323,7 +394,7 @@ public class WalletTest extends TestCase {
     // 34, 49, 56,50,48, 49, 51, 57,49, 56, 48, 57, 34, 125]}";
     // log.info("Issue poe first try create poe: " + createData);
     // JSONObject jsonCreate = JSON.parseObject(createData);
-    // JSONObject createResponse = wallet.CreatePOE(jsonheader, jsonCreate,
+    // JSONObject createResponse = wallet.createPOE(jsonheader, jsonCreate,
     // walletID, created, nonce,
     // privateKeyBase64,
     // "/Users/yan/eclipse-workspace/java-common/src/main/resources/sign-util");
@@ -338,7 +409,7 @@ public class WalletTest extends TestCase {
     // log.addHandler(fileHandler);
     // log.info("Issue poe body: " + strdata);
     //
-    // JSONObject response = wallet.IssueAssets(jsonheader, jsondata, walletID,
+    // JSONObject response = wallet.issueAssets(jsonheader, jsondata, walletID,
     // created, nonce, privateKeyBase64,
     // "/Users/yan/eclipse-workspace/java-common/src/main/resources/sign-util");
     // log.info("Issue poe response: " + response.toString());
@@ -383,7 +454,7 @@ public class WalletTest extends TestCase {
     // log.addHandler(fileHandler);
     // log.info("Transfer tokens body: " + strdata);
     //
-    // JSONObject response = wallet.TransferAssets(jsonheader, jsondata, walletID,
+    // JSONObject response = wallet.transferAssets(jsonheader, jsondata, walletID,
     // created, nonce,
     // privateKeyBase64,
     // "/Users/yan/work/gospace/src/github.com/arxanchain/sdk-go-common/crypto/tools/build/bin/sign-util");
@@ -400,6 +471,35 @@ public class WalletTest extends TestCase {
     // }
     // }
     //
+
+    // /**
+    // * UploadPOETest Test
+    // */
+    // public void UploadPOETest() {
+    // Client client = new Client(apikey, certpath, sign_params_creator,
+    // sign_params_created, sign_params_nonce,
+    // sign_params_privatekeyBase64, address, true);
+    // Wallet wallet = new Wallet(client);
+    //
+    // JSONObject jsonheader = JSON.parseObject(strheader);
+    //
+    // try {
+    // fileHandler = new FileHandler("wallet.log");
+    // fileHandler.setFormatter(new LogHander());
+    // log.addHandler(fileHandler);
+    //
+    // JSONObject response = wallet.uploadFile(jsonheader,
+    // "/Users/yan/upload_poe_file.a",
+    // "did:axn:39621915-6735-4bb4-b710-49295181d5ba", false);
+    // log.info("UploadPOETest response: " + response.toString());
+    //
+    // assertTrue(true);
+    // } catch (Exception e) {
+    // log.info("UploadPOETest error: " + e.getMessage());
+    // assertTrue(false);
+    // }
+    // }
+
     class LogHander extends Formatter {
         @Override
         public String format(LogRecord record) {
