@@ -681,8 +681,6 @@ public class Wallet {
      * @param jsonbody
      *            JSONObject body data
      * @return JSONObject response
-     * @throws Exception
-     *             index set error
      */
     public JSONObject indexSet(JSONObject jsonheader, JSONObject jsonbody) {
         Request request = new Request();
@@ -710,8 +708,7 @@ public class Wallet {
      * @param jsonbody
      *            JSONObject body data
      * @return JSONObject response
-     * @throws Exception
-     *             index get error
+     * 
      */
     public JSONObject indexGet(JSONObject jsonheader, JSONObject jsonbody) {
         Request request = new Request();
