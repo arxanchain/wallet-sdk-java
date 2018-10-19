@@ -106,8 +106,8 @@
 	</scm>
 	<developers>
 		<developer>
-			<name>dongyan</name>
-			<email>dongyan@arxanfintech.com</email>
+            <name>arxanchain</name>
+            <email>dev@arxanfintech.com</email>
 			<url>https://github.com/arxanchain/wallet-sdk-java</url>
 		</developer>
 	</developers>

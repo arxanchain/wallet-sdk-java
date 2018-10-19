@@ -60,7 +60,7 @@ public class WalletTest extends TestCase {
     // 以下参数根据实际进行赋值
     private String address = "192.168.250.2:8006";
     private String apikey = "x4BLbB8HM1539670957";
-    private String certpath = "/usr/local/lib/python2.7/dist-packages/py_common-2.0.1-py2.7.egg/cryption/ecc/certs";
+    private String certpath = "/usr/local/lib/python2.7/dist-packages/py_common-2.0.1-py2.7.egg/cryption/ecc";///certs";
     private String signToolPath = "/home/hp/go/src/github.com/arxanchain/sdk-go-common/crypto/tools/build/bin/sign-util";
     private String sign_params_creator = "did:axn:aede0319-17dd-40df-99f4e-ddfdfa6f1814"; // 创建钱包可以为空
     /*******************/
@@ -90,51 +90,51 @@ public class WalletTest extends TestCase {
     private String tokenID = "7c99c321a868b6ea53d9cdf25f4eb0f60ea3762e891677cab3244a1e7c4c96c3";
     private String toWalletID = "did:axn:147253cc-c39a-4206-9418-0bd33d9ccac2";
 
-    /**
-     * Register Test
-     */
-    public void testRegister() {
-        Client client = new Client(apikey, certpath, sign_params_creator, sign_params_created, sign_params_nonce,
-                sign_params_privatekeyBase64, address, enableCrypto);
-        Wallet wallet = new Wallet(client);
+    // /**
+    //  * Register Test
+    //  */
+    // public void testRegister() {
+    //     Client client = new Client(apikey, certpath, sign_params_creator, sign_params_created, sign_params_nonce,
+    //             sign_params_privatekeyBase64, address, enableCrypto);
+    //     Wallet wallet = new Wallet(client);
 
-        String access = UUID.randomUUID().toString();
+    //     String access = UUID.randomUUID().toString();
 
-        String strdata = "{\"access\":\"" + access + "\",\"secret\":\"Integrate1230\",\"type\": 2, \"id\": \"\"}";
-                //+ WalletType.ORGANIZATION.getIndex() + ", \"id\": \"\"}";
+    //     String strdata = "{\"access\":\"" + access + "\",\"secret\":\"Integrate1230\",\"type\": 2, \"id\": \"\"}";
+    //             //+ WalletType.ORGANIZATION.getIndex() + ", \"id\": \"\"}";
 
-        JSONObject jsondata = JSON.parseObject(strdata);
+    //     JSONObject jsondata = JSON.parseObject(strdata);
 
-        JSONObject jsonheader = JSON.parseObject(strheader);
+    //     JSONObject jsonheader = JSON.parseObject(strheader);
 
-        try {
-            fileHandler = new FileHandler("wallet.log");
-            fileHandler.setFormatter(new LogHander());
-            log.addHandler(fileHandler);
-            log.info("Register wallet body: " + strdata);
+    //     try {
+    //         fileHandler = new FileHandler("wallet.log");
+    //         fileHandler.setFormatter(new LogHander());
+    //         log.addHandler(fileHandler);
+    //         log.info("Register wallet body: " + strdata);
 
-            JSONObject jsonResponse = wallet.register(jsonheader, jsondata);
+    //         JSONObject jsonResponse = wallet.register(jsonheader, jsondata);
 
-            log.info("Register wallet response: " + jsonResponse.toString());
+    //         log.info("Register wallet response: " + jsonResponse.toString());
 
-            if (jsonResponse.getInteger("ErrCode") != 0) {
-                assertTrue(false);
-            }
-            // eg: how to get wallet did and private_key
-            this.walletID = jsonResponse.getJSONObject("Payload").getString("id");
-            this.privateKeyBase64 =
-            jsonResponse.getJSONObject("Payload").getJSONObject("key_pair")
-            .getString("private_key");
-            log.info("Register wallet did: " + walletID);
-            log.info("Register wallet private_key: " + this.privateKeyBase64);
+    //         if (jsonResponse.getInteger("ErrCode") != 0) {
+    //             assertTrue(false);
+    //         }
+    //         // eg: how to get wallet did and private_key
+    //         this.walletID = jsonResponse.getJSONObject("Payload").getString("id");
+    //         this.privateKeyBase64 =
+    //         jsonResponse.getJSONObject("Payload").getJSONObject("key_pair")
+    //         .getString("private_key");
+    //         log.info("Register wallet did: " + walletID);
+    //         log.info("Register wallet private_key: " + this.privateKeyBase64);
 
-            assertTrue(true);
-        } catch (Exception e) {
+    //         assertTrue(true);
+    //     } catch (Exception e) {
 
-            log.info("Register wallet error: " + e.getMessage());
-            assertTrue(false);
-        }
-    }
+    //         log.info("Register wallet error: " + e.getMessage());
+    //         assertTrue(false);
+    //     }
+    // }
 
     // /**
     // * IndexSet Test
@@ -248,50 +248,50 @@ public class WalletTest extends TestCase {
         }
     }
 
-    /**
-     * IssuePOE Test
-     */
-    public void testIssuePOE() {
-        Client client = new Client(apikey, certpath, sign_params_creator, sign_params_created, sign_params_nonce,
-                sign_params_privatekeyBase64, address, enableCrypto);
-        Wallet wallet = new Wallet(client);
+    // /**
+    //  * IssuePOE Test
+    //  */
+    // public void testIssuePOE() {
+    //     Client client = new Client(apikey, certpath, sign_params_creator, sign_params_created, sign_params_nonce,
+    //             sign_params_privatekeyBase64, address, enableCrypto);
+    //     Wallet wallet = new Wallet(client);
 
-        String created = String.valueOf(new Timestamp(System.currentTimeMillis()).getTime() / 1000);
-        String nonce = "test-nonce";
-        JSONObject jsonheader = JSON.parseObject(strheader);
-        try {
+    //     String created = String.valueOf(new Timestamp(System.currentTimeMillis()).getTime() / 1000);
+    //     String nonce = "test-nonce";
+    //     JSONObject jsonheader = JSON.parseObject(strheader);
+    //     try {
 
-            String createData = "{\"hash\": \"\", \"name\":\"name\",\"parent_id\":\"\",\"owner\":\"" + walletID
-                    + "\", \"id\":\"\",\"metadata\":[123, 34, 112, 104, 111, 110, 101, 34, 58,32, 34, 49, 56,50,48, 49, 51, 57,49, 56, 48, 57, 34, 125]}";
-            log.info("Issue poe first try create poe: " + createData);
-            JSONObject jsonCreate = JSON.parseObject(createData);
-            JSONObject createResponse = wallet.createPOE(jsonheader, jsonCreate, walletID, created, nonce,
-                    privateKeyBase64, signToolPath);
-            this.poeID = createResponse.getJSONObject("Payload").getString("id");
+    //         String createData = "{\"hash\": \"\", \"name\":\"name\",\"parent_id\":\"\",\"owner\":\"" + walletID
+    //                 + "\", \"id\":\"\",\"metadata\":[123, 34, 112, 104, 111, 110, 101, 34, 58,32, 34, 49, 56,50,48, 49, 51, 57,49, 56, 48, 57, 34, 125]}";
+    //         log.info("Issue poe first try create poe: " + createData);
+    //         JSONObject jsonCreate = JSON.parseObject(createData);
+    //         JSONObject createResponse = wallet.createPOE(jsonheader, jsonCreate, walletID, created, nonce,
+    //                 privateKeyBase64, signToolPath);
+    //         this.poeID = createResponse.getJSONObject("Payload").getString("id");
 
-            String strdata = "{\"owner\":\"" + walletID + "\",\"asset_id\":\"" + poeID
-                    + "\", \"amount\":1230, \"fees\":{}, \"issuer\":\"" + walletID + "\"}";
-            JSONObject jsondata = JSON.parseObject(strdata);
+    //         String strdata = "{\"owner\":\"" + walletID + "\",\"asset_id\":\"" + poeID
+    //                 + "\", \"amount\":1230, \"fees\":{}, \"issuer\":\"" + walletID + "\"}";
+    //         JSONObject jsondata = JSON.parseObject(strdata);
 
-            fileHandler = new FileHandler("wallet.log");
-            fileHandler.setFormatter(new LogHander());
-            log.addHandler(fileHandler);
-            log.info("Issue poe body: " + strdata);
+    //         fileHandler = new FileHandler("wallet.log");
+    //         fileHandler.setFormatter(new LogHander());
+    //         log.addHandler(fileHandler);
+    //         log.info("Issue poe body: " + strdata);
 
-            JSONObject response = wallet.issueTokens(jsonheader, jsondata, walletID, created, nonce, privateKeyBase64,
-                    signToolPath);
-            log.info("Issue poe response: " + response.toString());
+    //         JSONObject response = wallet.issueTokens(jsonheader, jsondata, walletID, created, nonce, privateKeyBase64,
+    //                 signToolPath);
+    //         log.info("Issue poe response: " + response.toString());
 
-            // if (response.getInteger("ErrCode") != 0) {
-            // assertTrue(false);
-            // }
+    //         // if (response.getInteger("ErrCode") != 0) {
+    //         // assertTrue(false);
+    //         // }
 
-            assertTrue(true);
-        } catch (Exception ex) {
-            log.info("Issue poe error: " + ex.getMessage());
-            assertTrue(false);
-        }
-    }
+    //         assertTrue(true);
+    //     } catch (Exception ex) {
+    //         log.info("Issue poe error: " + ex.getMessage());
+    //         assertTrue(false);
+    //     }
+    // }
 
     // /**
     // * Balance Test
@@ -324,131 +324,131 @@ public class WalletTest extends TestCase {
     // }
     // }
 
-    /**
-     * TransferTokens Test
-     */
-    public void testTransferTokens() {
-        Client client = new Client(apikey, certpath, sign_params_creator, sign_params_created, sign_params_nonce,
-                sign_params_privatekeyBase64, address, enableCrypto);
-        Wallet wallet = new Wallet(client);
+    // /**
+    //  * TransferTokens Test
+    //  */
+    // public void testTransferTokens() {
+    //     Client client = new Client(apikey, certpath, sign_params_creator, sign_params_created, sign_params_nonce,
+    //             sign_params_privatekeyBase64, address, enableCrypto);
+    //     Wallet wallet = new Wallet(client);
 
-        JSONObject jsonheader = JSON.parseObject(strheader);
+    //     JSONObject jsonheader = JSON.parseObject(strheader);
 
-        try {
-            String strdata = "{\"from\":\"" + walletID + "\",\"to\":\"" + toWalletID
-                    + "\",\"asset_id\":\"\",\"tokens\":[{\"token_id\":\"" + tokenID
-                    + "\",\"amount\":3}],\"fee\":{\"amount\":1}}";
+    //     try {
+    //         String strdata = "{\"from\":\"" + walletID + "\",\"to\":\"" + toWalletID
+    //                 + "\",\"asset_id\":\"\",\"tokens\":[{\"token_id\":\"" + tokenID
+    //                 + "\",\"amount\":3}],\"fee\":{\"amount\":1}}";
 
-            JSONObject jsondata = JSON.parseObject(strdata);
+    //         JSONObject jsondata = JSON.parseObject(strdata);
 
-            String created = String.valueOf(new Timestamp(System.currentTimeMillis()).getTime() / 1000);
-            String nonce = "nonce";
+    //         String created = String.valueOf(new Timestamp(System.currentTimeMillis()).getTime() / 1000);
+    //         String nonce = "nonce";
 
-            fileHandler = new FileHandler("wallet.log");
-            fileHandler.setFormatter(new LogHander());
-            log.addHandler(fileHandler);
-            log.info("Transfer tokens body: " + strdata);
+    //         fileHandler = new FileHandler("wallet.log");
+    //         fileHandler.setFormatter(new LogHander());
+    //         log.addHandler(fileHandler);
+    //         log.info("Transfer tokens body: " + strdata);
 
-            JSONObject response = wallet.transferTokens(jsonheader, jsondata, walletID, created, nonce,
-                    privateKeyBase64, signToolPath);
-            log.info("Transfer tokens response: " + response.toString());
+    //         JSONObject response = wallet.transferTokens(jsonheader, jsondata, walletID, created, nonce,
+    //                 privateKeyBase64, signToolPath);
+    //         log.info("Transfer tokens response: " + response.toString());
 
-            // if (response.getInteger("ErrCode") != 0) {
-            // assertTrue(false);
-            // }
+    //         // if (response.getInteger("ErrCode") != 0) {
+    //         // assertTrue(false);
+    //         // }
 
-            assertTrue(true);
-        } catch (Exception e) {
-            log.info("Transfer tokens error: " + e.getMessage());
-            assertTrue(false);
-        }
-    }
+    //         assertTrue(true);
+    //     } catch (Exception e) {
+    //         log.info("Transfer tokens error: " + e.getMessage());
+    //         assertTrue(false);
+    //     }
+    // }
 
-    /**
-     * IssueAssets Test
-     */
-    public void testIssueAssets() {
-        Client client = new Client(apikey, certpath, sign_params_creator, sign_params_created, sign_params_nonce,
-                sign_params_privatekeyBase64, address, enableCrypto);
-        Wallet wallet = new Wallet(client);
+    // /**
+    //  * IssueAssets Test
+    //  */
+    // public void testIssueAssets() {
+    //     Client client = new Client(apikey, certpath, sign_params_creator, sign_params_created, sign_params_nonce,
+    //             sign_params_privatekeyBase64, address, enableCrypto);
+    //     Wallet wallet = new Wallet(client);
 
-        String created = String.valueOf(new Timestamp(System.currentTimeMillis()).getTime() / 1000);
-        String nonce = "test-nonce";
-        JSONObject jsonheader = JSON.parseObject(strheader);
-        try {
+    //     String created = String.valueOf(new Timestamp(System.currentTimeMillis()).getTime() / 1000);
+    //     String nonce = "test-nonce";
+    //     JSONObject jsonheader = JSON.parseObject(strheader);
+    //     try {
 
-            String createData = "{\"hash\": \"\", \"name\":\"name\",\"parent_id\":\"\",\"owner\":\"" + walletID
-                    + "\", \"id\":\"\",\"metadata\":[123, 34, 112, 104, 111, 110, 101, 34, 58,32, 34, 49, 56,50,48, 49, 51, 57,49, 56, 48, 57, 34, 125]}";
-            log.info("Issue poe first try create poe: " + createData);
-            JSONObject jsonCreate = JSON.parseObject(createData);
-            JSONObject createResponse = wallet.createPOE(jsonheader, jsonCreate, walletID, created, nonce,
-                    privateKeyBase64, signToolPath);
-            this.poeID = createResponse.getJSONObject("Payload").getString("id");
+    //         String createData = "{\"hash\": \"\", \"name\":\"name\",\"parent_id\":\"\",\"owner\":\"" + walletID
+    //                 + "\", \"id\":\"\",\"metadata\":[123, 34, 112, 104, 111, 110, 101, 34, 58,32, 34, 49, 56,50,48, 49, 51, 57,49, 56, 48, 57, 34, 125]}";
+    //         log.info("Issue poe first try create poe: " + createData);
+    //         JSONObject jsonCreate = JSON.parseObject(createData);
+    //         JSONObject createResponse = wallet.createPOE(jsonheader, jsonCreate, walletID, created, nonce,
+    //                 privateKeyBase64, signToolPath);
+    //         this.poeID = createResponse.getJSONObject("Payload").getString("id");
 
-            String strdata = "{\"owner\":\"" + walletID + "\",\"asset_id\":\"" + poeID
-                    + "\", \"fees\":{}, \"issuer\":\"" + walletID + "\"}";
-            JSONObject jsondata = JSON.parseObject(strdata);
+    //         String strdata = "{\"owner\":\"" + walletID + "\",\"asset_id\":\"" + poeID
+    //                 + "\", \"fees\":{}, \"issuer\":\"" + walletID + "\"}";
+    //         JSONObject jsondata = JSON.parseObject(strdata);
 
-            fileHandler = new FileHandler("wallet.log");
-            fileHandler.setFormatter(new LogHander());
-            log.addHandler(fileHandler);
-            log.info("Issue poe body: " + strdata);
+    //         fileHandler = new FileHandler("wallet.log");
+    //         fileHandler.setFormatter(new LogHander());
+    //         log.addHandler(fileHandler);
+    //         log.info("Issue poe body: " + strdata);
 
-            JSONObject response = wallet.issueAssets(jsonheader, jsondata, walletID, created, nonce, privateKeyBase64,
-                    signToolPath);
-            log.info("Issue poe response: " + response.toString());
+    //         JSONObject response = wallet.issueAssets(jsonheader, jsondata, walletID, created, nonce, privateKeyBase64,
+    //                 signToolPath);
+    //         log.info("Issue poe response: " + response.toString());
 
-            // if (response.getInteger("ErrCode") != 0) {
-            // assertTrue(false);
-            // }
+    //         // if (response.getInteger("ErrCode") != 0) {
+    //         // assertTrue(false);
+    //         // }
 
-            assertTrue(true);
-        } catch (
+    //         assertTrue(true);
+    //     } catch (
 
-        Exception ex) {
-            log.info("Issue poe error: " + ex.getMessage());
-            assertTrue(false);
-        }
-    }
+    //     Exception ex) {
+    //         log.info("Issue poe error: " + ex.getMessage());
+    //         assertTrue(false);
+    //     }
+    // }
 
-    /**
-     * TransferAssets Test
-     */
-    public void testTransferAssets() {
-        Client client = new Client(apikey, certpath, sign_params_creator, sign_params_created, sign_params_nonce,
-                sign_params_privatekeyBase64, address, enableCrypto);
-        Wallet wallet = new Wallet(client);
+    // /**
+    //  * TransferAssets Test
+    //  */
+    // public void testTransferAssets() {
+    //     Client client = new Client(apikey, certpath, sign_params_creator, sign_params_created, sign_params_nonce,
+    //             sign_params_privatekeyBase64, address, enableCrypto);
+    //     Wallet wallet = new Wallet(client);
 
-        JSONObject jsonheader = JSON.parseObject(strheader);
+    //     JSONObject jsonheader = JSON.parseObject(strheader);
 
-        try {
-            String strdata = "{\"from\":\"" + walletID + "\",\"to\":\"" + toWalletID
-                    + "\",\"assets\":[\"did:axn:f6e741e1-4c45-4052-b8c2-6cd0873e1be2\"],\"fee\":{\"amount\":1}}";
+    //     try {
+    //         String strdata = "{\"from\":\"" + walletID + "\",\"to\":\"" + toWalletID
+    //                 + "\",\"assets\":[\"did:axn:f6e741e1-4c45-4052-b8c2-6cd0873e1be2\"],\"fee\":{\"amount\":1}}";
 
-            JSONObject jsondata = JSON.parseObject(strdata);
+    //         JSONObject jsondata = JSON.parseObject(strdata);
 
-            String created = String.valueOf(new Timestamp(System.currentTimeMillis()).getTime() / 1000);
-            String nonce = "nonce";
+    //         String created = String.valueOf(new Timestamp(System.currentTimeMillis()).getTime() / 1000);
+    //         String nonce = "nonce";
 
-            fileHandler = new FileHandler("wallet.log");
-            fileHandler.setFormatter(new LogHander());
-            log.addHandler(fileHandler);
-            log.info("Transfer tokens body: " + strdata);
+    //         fileHandler = new FileHandler("wallet.log");
+    //         fileHandler.setFormatter(new LogHander());
+    //         log.addHandler(fileHandler);
+    //         log.info("Transfer tokens body: " + strdata);
 
-            JSONObject response = wallet.transferAssets(jsonheader, jsondata, walletID, created, nonce,
-                    privateKeyBase64, signToolPath);
-            log.info("Transfer tokens response: " + response.toString());
+    //         JSONObject response = wallet.transferAssets(jsonheader, jsondata, walletID, created, nonce,
+    //                 privateKeyBase64, signToolPath);
+    //         log.info("Transfer tokens response: " + response.toString());
 
-            // if (response.getInteger("ErrCode") != 0) {
-            // assertTrue(false);
-            // }
+    //         // if (response.getInteger("ErrCode") != 0) {
+    //         // assertTrue(false);
+    //         // }
 
-            assertTrue(true);
-        } catch (Exception e) {
-            log.info("Transfer tokens error: " + e.getMessage());
-            assertTrue(false);
-        }
-    }
+    //         assertTrue(true);
+    //     } catch (Exception e) {
+    //         log.info("Transfer tokens error: " + e.getMessage());
+    //         assertTrue(false);
+    //     }
+    // }
 
     // /**
     // * UploadPOETest Test
