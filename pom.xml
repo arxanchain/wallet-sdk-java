@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.arxanfintech</groupId>
 	<artifactId>wallet-sdk-java</artifactId>
-	<version>2.1.1</version>
+	<version>3.0</version>
 	<packaging>jar</packaging>
 
 	<name>java-sdk</name>
@@ -106,8 +106,8 @@
 	</scm>
 	<developers>
 		<developer>
-			<name>dongyan</name>
-			<email>dongyan@arxanfintech.com</email>
+            <name>arxanchain</name>
+            <email>dev@arxanfintech.com</email>
 			<url>https://github.com/arxanchain/wallet-sdk-java</url>
 		</developer>
 	</developers>

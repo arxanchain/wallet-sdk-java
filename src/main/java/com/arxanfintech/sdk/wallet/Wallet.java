@@ -323,11 +323,11 @@ public class Wallet {
         Request request = new Request();
         request.client = this.client;
 
-        request.body = Common.BuildBody(payload, creator, created, nonce, privateKeyBase64, signToolPath);
+        request.body = JSON.parseObject(payload.toString());
 
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.GetAddress() + "/v1/transaction/tokens/issue/prepare";
+        request.url = "http://" + request.client.GetAddress() + "/v2/transaction/tokens/issue/prepare";
 
         Api api = new Api();
         try {
@@ -349,7 +349,7 @@ public class Wallet {
                     + "\",\"privateB64\":\"" + privateKeyBase64 + "\",\"payload\":\""
                     + payload.toString().replace("\"", "\\\"") + "\"}";
 
-            txs = SignTxs(issuer, txs, JSON.parseObject(strParams), signToolPath);
+            txs = SignTxs(txs, JSON.parseObject(strParams), signToolPath);
 
             issue_pre_resp.put("txs", txs);
 
@@ -395,11 +395,11 @@ public class Wallet {
         Request request = new Request();
         request.client = this.client;
 
-        request.body = Common.BuildBody(payload, creator, created, nonce, privateKeyBase64, signToolPath);
+        request.body = JSON.parseObject(payload.toString());
 
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.GetAddress() + "/v1/transaction/tokens/transfer/prepare";
+        request.url = "http://" + request.client.GetAddress() + "/v2/transaction/tokens/transfer/prepare";
 
         Api api = new Api();
         try {
@@ -416,7 +416,7 @@ public class Wallet {
             String strParams = "{\"creator\":\"" + creator + "\",\"created\":\"" + created + "\",\"nonce\":\"" + nonce
                     + "\",\"privateB64\":\"" + privateKeyBase64 + "\"}";
 
-            issue_pre_resp = SignTxs(issuer, issue_pre_resp, JSON.parseObject(strParams), signToolPath);
+            issue_pre_resp = SignTxs(issue_pre_resp, JSON.parseObject(strParams), signToolPath);
 
             JSONObject txs = new JSONObject();
             txs.put("txs", issue_pre_resp);
@@ -462,11 +462,11 @@ public class Wallet {
         Request request = new Request();
         request.client = this.client;
 
-        request.body = Common.BuildBody(payload, creator, created, nonce, privateKeyBase64, signToolPath);
+        request.body = JSON.parseObject(payload.toString());
 
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.GetAddress() + "/v1/transaction/assets/issue/prepare";
+        request.url = "http://" + request.client.GetAddress() + "/v2/transaction/assets/issue/prepare";
 
         Api api = new Api();
         try {
@@ -483,7 +483,7 @@ public class Wallet {
             String strParams = "{\"creator\":\"" + creator + "\",\"created\":\"" + created + "\",\"nonce\":\"" + nonce
                     + "\",\"privateB64\":\"" + privateKeyBase64 + "\"}";
 
-            issue_pre_resp = SignTxs(issuer, issue_pre_resp, JSON.parseObject(strParams), signToolPath);
+            issue_pre_resp = SignTxs(issue_pre_resp, JSON.parseObject(strParams), signToolPath);
 
             JSONObject txs = new JSONObject();
             txs.put("txs", issue_pre_resp);
@@ -527,11 +527,11 @@ public class Wallet {
         Request request = new Request();
         request.client = this.client;
 
-        request.body = Common.BuildBody(payload, creator, created, nonce, privateKeyBase64, signToolPath);
+        request.body = JSON.parseObject(payload.toString());
 
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.GetAddress() + "/v1/transaction/assets/transfer/prepare";
+        request.url = "http://" + request.client.GetAddress() + "/v2/transaction/assets/transfer/prepare";
 
         Api api = new Api();
         try {
@@ -548,7 +548,7 @@ public class Wallet {
             String strParams = "{\"creator\":\"" + creator + "\",\"created\":\"" + created + "\",\"nonce\":\"" + nonce
                     + "\",\"privateB64\":\"" + privateKeyBase64 + "\"}";
 
-            issue_pre_resp = SignTxs(issuer, issue_pre_resp, JSON.parseObject(strParams), signToolPath);
+            issue_pre_resp = SignTxs(issue_pre_resp, JSON.parseObject(strParams), signToolPath);
 
             JSONObject txs = new JSONObject();
             txs.put("txs", issue_pre_resp);
@@ -567,7 +567,8 @@ public class Wallet {
 
     }
 
-    private JSONArray SignTxs(String did, JSONArray txs, JSONObject params, String signToolPath) {
+    public JSONArray SignTxs(JSONArray txs, JSONObject params, String signToolPath) {
+        String did = params.getString("creator");
         for (int i = 0; i < txs.size(); i++) {
 
             JSONObject job = txs.getJSONObject(i);
@@ -621,7 +622,7 @@ public class Wallet {
         request.body = jsonbody;
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.GetAddress() + "/v1/transaction/process";
+        request.url = "http://" + request.client.GetAddress() + "/v2/transaction/process";
 
         Api api = new Api();
         try {
@@ -655,10 +656,10 @@ public class Wallet {
         request.header = jsonheader;
         request.crypto = crypto;
         if (isEndpoint) {
-            request.url = "http://" + request.client.GetAddress() + "/v1/transaction/logs?type=" + type + "&endpoint="
+            request.url = "http://" + request.client.GetAddress() + "/v2/transaction/logs?type=" + type + "&endpoint="
                     + endpointOrId;
         } else {
-            request.url = "http://" + request.client.GetAddress() + "/v1/transaction/logs?type=" + type + "&id="
+            request.url = "http://" + request.client.GetAddress() + "/v2/transaction/logs?type=" + type + "&id="
                     + endpointOrId;
         }
 
