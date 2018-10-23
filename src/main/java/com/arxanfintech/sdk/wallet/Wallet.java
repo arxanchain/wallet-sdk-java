@@ -5,7 +5,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-                 http://www.apache.org/licenses/LICENSE-2.0
+                 https://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,7 +37,8 @@ import org.bouncycastle.util.encoders.Base64;
 public class Wallet {
     private static int result;
     private Client client;
-    private Crypto crypto;
+    private Crypto crypto; // FIXME delete
+    private Api api;
 
     /***
      * new wallet
@@ -45,21 +46,14 @@ public class Wallet {
      * @param client
      *            base info with enterprise's did/nonce/created/privateKeyBase64
      */
-    public Wallet(Client client) {
+    public Wallet(Client client, Api api) {
         if (client.GetRouteTag() == null || client.GetRouteTag() == "") {
             client.SetRouteTag("wallet-ng");
         }
         this.client = client;
 
-        String privateKeyPath = client.GetCertPath() + "/users/" + client.GetApiKey() + "/" + client.GetApiKey()
-                + ".key";
-        String publicCertPath = client.GetCertPath() + "/tls/tls.cert";
+        this.api = api;
 
-        try {
-            this.crypto = new Crypto(new FileInputStream(privateKeyPath), new FileInputStream(publicCertPath));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     /***
@@ -79,11 +73,9 @@ public class Wallet {
         request.body = jsonbody;
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.GetAddress() + "/v1/wallet/register";
+        request.url = request.client.GetAddress() + "/v1/wallet/register";
 
-        Api api = new Api();
         try {
-            api.NewHttpClient();
             String response = api.DoPost(request);
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
@@ -109,11 +101,9 @@ public class Wallet {
         request.body = jsonbody;
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.GetAddress() + "/v1/wallet/register/subwallet";
+        request.url = request.client.GetAddress() + "/v1/wallet/register/subwallet";
 
-        Api api = new Api();
         try {
-            api.NewHttpClient();
             String response = api.DoPost(request);
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
@@ -138,11 +128,9 @@ public class Wallet {
         request.client = this.client;
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.GetAddress() + "/v1/wallet/info?id=" + id;
+        request.url = request.client.GetAddress() + "/v1/wallet/info?id=" + id;
 
-        Api api = new Api();
         try {
-            api.NewHttpClient();
             String response = api.DoGet(request);
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
@@ -167,11 +155,9 @@ public class Wallet {
         request.client = this.client;
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.GetAddress() + "/v1/wallet/balance?id=" + id;
+        request.url = request.client.GetAddress() + "/v1/wallet/balance?id=" + id;
 
-        Api api = new Api();
         try {
-            api.NewHttpClient();
             String response = api.DoGet(request);
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
@@ -211,11 +197,9 @@ public class Wallet {
 
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.GetAddress() + "/v1/poe/create";
+        request.url = request.client.GetAddress() + "/v1/poe/create";
 
-        Api api = new Api();
         try {
-            api.NewHttpClient();
             String response = api.DoPost(request);
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
@@ -255,11 +239,9 @@ public class Wallet {
 
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.GetAddress() + "/v1/poe/update";
+        request.url = request.client.GetAddress() + "/v1/poe/update";
 
-        Api api = new Api();
         try {
-            api.NewHttpClient();
             String response = api.DoPut(request);
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
@@ -284,11 +266,9 @@ public class Wallet {
         request.client = this.client;
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.GetAddress() + "/v1/poe?id=" + id;
+        request.url = request.client.GetAddress() + "/v1/poe?id=" + id;
 
-        Api api = new Api();
         try {
-            api.NewHttpClient();
             String response = api.DoGet(request);
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
@@ -327,11 +307,9 @@ public class Wallet {
 
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.GetAddress() + "/v2/transaction/tokens/issue/prepare";
+        request.url = request.client.GetAddress() + "/v2/transaction/tokens/issue/prepare";
 
-        Api api = new Api();
         try {
-            api.NewHttpClient();
             String response = api.DoPost(request);
             JSONObject issue_pre = JSON.parseObject(response);
 
@@ -399,11 +377,9 @@ public class Wallet {
 
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.GetAddress() + "/v2/transaction/tokens/transfer/prepare";
+        request.url = request.client.GetAddress() + "/v2/transaction/tokens/transfer/prepare";
 
-        Api api = new Api();
         try {
-            api.NewHttpClient();
             String response = api.DoPost(request);
             JSONObject issue_pre = JSON.parseObject(response);
             if (issue_pre.getInteger("ErrCode") != 0) {
@@ -466,11 +442,9 @@ public class Wallet {
 
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.GetAddress() + "/v2/transaction/assets/issue/prepare";
+        request.url = request.client.GetAddress() + "/v2/transaction/assets/issue/prepare";
 
-        Api api = new Api();
         try {
-            api.NewHttpClient();
             String response = api.DoPost(request);
             JSONObject issue_pre = JSON.parseObject(response);
             if (issue_pre.getInteger("ErrCode") != 0) {
@@ -531,11 +505,9 @@ public class Wallet {
 
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.GetAddress() + "/v2/transaction/assets/transfer/prepare";
+        request.url = request.client.GetAddress() + "/v2/transaction/assets/transfer/prepare";
 
-        Api api = new Api();
         try {
-            api.NewHttpClient();
             String response = api.DoPost(request);
             JSONObject issue_pre = JSON.parseObject(response);
             if (issue_pre.getInteger("ErrCode") != 0) {
@@ -622,11 +594,9 @@ public class Wallet {
         request.body = jsonbody;
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.GetAddress() + "/v2/transaction/process";
+        request.url = request.client.GetAddress() + "/v2/transaction/process";
 
-        Api api = new Api();
         try {
-            api.NewHttpClient();
             String response = api.DoPost(request);
             return response;
         } catch (Exception e) {
@@ -656,16 +626,14 @@ public class Wallet {
         request.header = jsonheader;
         request.crypto = crypto;
         if (isEndpoint) {
-            request.url = "http://" + request.client.GetAddress() + "/v2/transaction/logs?type=" + type + "&endpoint="
+            request.url = request.client.GetAddress() + "/v2/transaction/logs?type=" + type + "&endpoint="
                     + endpointOrId;
         } else {
-            request.url = "http://" + request.client.GetAddress() + "/v2/transaction/logs?type=" + type + "&id="
+            request.url = request.client.GetAddress() + "/v2/transaction/logs?type=" + type + "&id="
                     + endpointOrId;
         }
 
-        Api api = new Api();
         try {
-            api.NewHttpClient();
             String response = api.DoGet(request);
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
@@ -689,10 +657,8 @@ public class Wallet {
         request.body = jsonbody;
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.GetAddress() + "/v1/index/set";
-        Api api = new Api();
+        request.url = request.client.GetAddress() + "/v1/index/set";
         try {
-            api.NewHttpClient();
             String response = api.DoPost(request);
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
@@ -717,11 +683,9 @@ public class Wallet {
         request.body = jsonbody;
         request.header = jsonheader;
         request.crypto = crypto;
-        request.url = "http://" + request.client.GetAddress() + "/v1/index/get";
+        request.url = request.client.GetAddress() + "/v1/index/get";
 
-        Api api = new Api();
         try {
-            api.NewHttpClient();
             String response = api.DoPost(request);
             JSONObject jsonResponse = JSON.parseObject(response);
             return jsonResponse;
@@ -752,7 +716,7 @@ public class Wallet {
                 mapHeader.put(Headers.FabioRouteTagHeader, this.client.GetRouteTag());
                 mapHeader.put(Headers.RouteTagHeader, this.client.GetRouteTag());
             }
-            String url = "http://" + this.client.GetAddress() + "/v1/poe/upload";
+            String url = this.client.GetAddress() + "/v1/poe/upload";
 
             String boundary = "BeginWebKitFormBoundary7MA4YWxkTrZu0gW";
             mapHeader.put("Content-Type", "multipart/form-data; boundary=" + boundary);

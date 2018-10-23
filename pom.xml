@@ -45,7 +45,7 @@
 		<dependency>
 			<groupId>com.arxanfintech</groupId>
 			<artifactId>java-common</artifactId>
-			<version>2.1.1b</version>
+			<version>3.0</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 		<dependency>
