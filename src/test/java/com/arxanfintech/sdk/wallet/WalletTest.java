@@ -216,16 +216,8 @@ public class WalletTest extends TestCase {
      */
     public void testCreatePOE() {
         Client client = new Client(apikey, sign_params_creator, sign_params_created, sign_params_nonce,
-                sign_params_privatekeyBase64, address);
-        Api api;
-		try {
-			api = new Api("", "", "", "");
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			return;
-		} // FIXME
-		Wallet wallet = new Wallet(client, api);
+                sign_params_privatekeyBase64, address,"", "", "", "");
+		Wallet wallet = new Wallet(client);
 
         String strdata = "{\"hash\": \"\", \"name\":\"name\",\"parent_id\":\"\",\"owner\":\"" + walletID
                 + "\", \"id\":\"\",\"metadata\":[123, 34, 112, 104, 111, 110, 101, 34, 58,32,34, 49, 56,50,48, 49, 51, 57,49, 56, 48, 57, 34, 125]}";
@@ -494,15 +486,8 @@ public class WalletTest extends TestCase {
      */
     public void UploadPOETest() {
         Client client = new Client(apikey, sign_params_creator, sign_params_created, sign_params_nonce,
-                sign_params_privatekeyBase64, address);
-        Api api;
-        try {
-			api = new Api("", "", "", "");
-		} catch (Exception e) {
-			// TODO: handle exception
-			return;
-		}
-        Wallet wallet = new Wallet(client, api);
+                sign_params_privatekeyBase64, address, "", "", "", "");
+        Wallet wallet = new Wallet(client);
 
         JSONObject jsonheader = JSON.parseObject(strheader);
 

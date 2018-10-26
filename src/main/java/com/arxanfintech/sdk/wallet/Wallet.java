@@ -46,13 +46,14 @@ public class Wallet {
      * @param client
      *            base info with enterprise's did/nonce/created/privateKeyBase64
      */
-    public Wallet(Client client, Api api) {
+    public Wallet(Client client) {
         if (client.GetRouteTag() == null || client.GetRouteTag() == "") {
             client.SetRouteTag("wallet-ng");
         }
         this.client = client;
 
-        this.api = api;
+        this.api = new Api(client.GetKeyStorePath(), client.GetKeyStorePasswd(), 
+        		client.GetTrustStorePath(), client.GetTrustStorePasswd());
 
     }
 
