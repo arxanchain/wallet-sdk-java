@@ -486,7 +486,7 @@ public class WalletTest extends TestCase {
      */
     public void UploadPOETest() {
         Client client = new Client(apikey, sign_params_creator, sign_params_created, sign_params_nonce,
-                sign_params_privatekeyBase64, address, "", "", "", "");
+                sign_params_privatekeyBase64, address, "", "");
         Wallet wallet = new Wallet(client);
 
         JSONObject jsonheader = JSON.parseObject(strheader);
