@@ -20,6 +20,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import com.arxanfintech.common.rest.Api;
 import com.arxanfintech.common.rest.Client;
 import com.arxanfintech.sdk.wallet.Wallet;
 import java.sql.Timestamp;
@@ -27,6 +28,9 @@ import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+
+import org.apache.http.ssl.SSLContexts;
+
 import java.util.UUID;  
 
 import com.alibaba.fastjson.JSON;
@@ -211,9 +215,9 @@ public class WalletTest extends TestCase {
      * CreatePOE Test
      */
     public void testCreatePOE() {
-        Client client = new Client(apikey, certpath, sign_params_creator, sign_params_created, sign_params_nonce,
-                sign_params_privatekeyBase64, address, enableCrypto);
-        Wallet wallet = new Wallet(client);
+        Client client = new Client(apikey, sign_params_creator, sign_params_created, sign_params_nonce,
+                sign_params_privatekeyBase64, address,"", "", "", "");
+		Wallet wallet = new Wallet(client);
 
         String strdata = "{\"hash\": \"\", \"name\":\"name\",\"parent_id\":\"\",\"owner\":\"" + walletID
                 + "\", \"id\":\"\",\"metadata\":[123, 34, 112, 104, 111, 110, 101, 34, 58,32,34, 49, 56,50,48, 49, 51, 57,49, 56, 48, 57, 34, 125]}";
@@ -481,8 +485,8 @@ public class WalletTest extends TestCase {
      * UploadPOETest Test
      */
     public void UploadPOETest() {
-        Client client = new Client(apikey, certpath, sign_params_creator, sign_params_created, sign_params_nonce,
-                sign_params_privatekeyBase64, address, true);
+        Client client = new Client(apikey, sign_params_creator, sign_params_created, sign_params_nonce,
+                sign_params_privatekeyBase64, address, "", "");
         Wallet wallet = new Wallet(client);
 
         JSONObject jsonheader = JSON.parseObject(strheader);
