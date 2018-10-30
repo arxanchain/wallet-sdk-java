@@ -37,14 +37,14 @@ The certificates include:
   verify the server is trusty in communication. You can download it from the
   ArxanChain BaaS ChainConsole -> System Management -> API Certs Management
 * The certificate of the client user including private key(`APIKey.key`) and 
-  cert file(`APIKey.crt`) signed by CA. You can download it in Client Certs List.
+  cert file(`APIKey.pem`) signed by CA. You can download it in Client Certs List.
 
 After downloading three files, use the following command to import CA and 
 client cert into p12 file that can be used as keystore.
 
 ```sh
-$ openssl pkcs12 -export -clcerts -in apikey.crt -inkey apikey.key -out apikey.p12 (need passwd)
-$ keytool -import -alias arxanbaas -file ca.crt -keystore apikey.p12 (need passwd)
+$ openssl pkcs12 -export -clcerts -in apikey.pem -inkey apikey.key -out apikey.p12 (need passwd)
+$ keytool -import -alias arxanbaas -file rootca.crt -keystore apikey.p12 (need passwd)
 ```
 
 
