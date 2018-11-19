@@ -21,58 +21,49 @@ When you use wallet-sdk-java, you should reference project like this:
 <dependency>
     <groupId>com.arxanfintech</groupId>
     <artifactId>wallet-sdk-java</artifactId>
-    <version>2.1.1</version>
+    <version>3.0.0</version>
 </dependency>
 ```
 
 
 ## Wallet Platform API
-wallet-sdk-java have some import APIs. For more details please refer to [Wallet APIs Documentation](http://www.arxanfintech.com/infocenter/html/development/wallet.html)
+wallet-sdk-java have some import APIs. For more details please refer to [Wallet APIs Documentation](http://chain.arxanfintech.com/infocenter/html/development/wallet.html)
 
-Before you use wallet-sdk-java, you should prepare certificates.
+Before you use wallet-sdk-java, you should prepare to import certificates into keystore for using https protocol.
 
 The certificates include:
 
-* The public key of ArxanChain BaaS Platform (server.crt) which is used to
-  encrypt the data sent to Wallet service. You can download it from the
+* The CA certificate of ArxanChain BaaS Platform (rootca.crt) which is used to
+  verify the server is trusty in communication. You can download it from the
   ArxanChain BaaS ChainConsole -> System Management -> API Certs Management
-* The private key of the client user (such as `APIKey.key`) which is used to sign the
-  data. You can download it when you create an API Certificate.
+* The certificate of the client user including private key(`APIKey.key`) and 
+  cert file(`APIKey.pem`) signed by CA. You can download it in Client Certs List.
 
-After downloading the two files, use the following command to convert your private key file into PEM format.
+After downloading three files, use the following command to import CA and 
+client cert into p12 file that can be used as keystore.
 
 ```sh
-$ openssl ec -in apikey.key -outform PEM -out apikey.key
-```
-
-Then copy (rename as follows) your TLS certificate and PEM private key file as follows path:
-
-```
-└── your_cert_dir
-    ├── tls
-    |   └── tls.cert
-    └── users
-        └── your-api-key
-            └── your-api-key.key
+$ openssl pkcs12 -export -clcerts -in apikey.pem -inkey apikey.key -out apikey.p12 (need passwd)
+$ keytool -import -alias arxanbaas -file rootca.crt -keystore apikey.p12 (need passwd)
 ```
 
 
 ### Init a wallet client
 
 ```java
-        String address = IP:PORT"; // **Address** is the IP address of the BAAS server entrance.
+        String address = https://IP:PORT"; // **Address** is the IP address of the BAAS server entrance.
         String apiKey = "pgZ2CzcTp1530257507"; // Param **apikey** is set to the API access key applied on `ChainConsole` management page
-        String certPath = certpath; //param **CertPath** is the path of your private key file and tls certificate
         String signParamsCreator = sign_params_creator; //the enterprise's wallet did
         String signParamsNonce = sign_params_nonce; //the enterprise's nonce
         String signParamsPrivatekeyBase64 = sign_params_privatekeyBase64; //the enterprise's wallet private key 
         String signParamsCreated = "1534723900";
-        Boolean enableCrypto = enableCrypto; //true will enable crypt data.
+        String keyStorePath = "/path/to/keystore" // abs path of keystore file
+        String storePasswd = "123456" // the password of keystore
 
         Client client = new Client(
-            apiKey, certPath, signParamsCreator, signParamsCreated,
+            apiKey, signParamsCreator, signParamsCreated,
             signParamsNonce, signParamsPrivatekeyBase64, address, 
-            enableCrypto); // enableCrypto default true if not set
+            keyStorePath, storePasswd);
         Wallet wallet = new Wallet(client);
         
         // Each of the APIs to invoke blockchain has two invoking modes: - `sync` and `async`. You can set it in http header.
